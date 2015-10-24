@@ -8,8 +8,8 @@
     <ProjectGuid>{5BC368DE-85FF-4EBC-91A3-64BA87E061F5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Demo_MG_BouncingBall</RootNamespace>
-    <AssemblyName>Demo_MG_BouncingBall</AssemblyName>
+    <RootNamespace>Demo_MG_ClickBall</RootNamespace>
+    <AssemblyName>Demo_MG_ClickBall</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <MonoGameContentBuilderExe>

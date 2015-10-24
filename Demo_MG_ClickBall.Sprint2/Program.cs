@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Demo_MG_BouncingBall
+namespace Demo_MG_ClickBall.Sprint2
 {
 #if WINDOWS || LINUX
     /// <summary>

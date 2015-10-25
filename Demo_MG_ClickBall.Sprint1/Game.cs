@@ -11,7 +11,7 @@ namespace Demo_MG_ClickBall.Sprint1
     /// </summary>
     public class BouncingBall : Game
     {
-        // TODO 00a - add code to allow Windows message boxes when running in a Windows envrionment
+        // TODO 00a - add code to allow Windows message boxes when running in a Windows environment
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
 
@@ -23,7 +23,7 @@ namespace Demo_MG_ClickBall.Sprint1
         private const int MAP_CELL_ROW_COUNT = 8;
         private const int MAP_CELL_COLUMN_COUNT = 8;
 
-        // TODO 03b - declare instance variables for for the sprites
+        // TODO 03b - declare instance variables for the sprites
         private Texture2D _ball;
         private Texture2D _wall;
         private Vector2 _ballPosition;
@@ -34,7 +34,7 @@ namespace Demo_MG_ClickBall.Sprint1
         private GraphicsDeviceManager _graphics;
 
         /// <summary>
-        /// constructor intitializes the game objects
+        /// constructor initializes the game objects
         /// </summary>
         public BouncingBall()
         {
@@ -93,11 +93,11 @@ namespace Demo_MG_ClickBall.Sprint1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // TODO 06a - add a method to detect an Escape key press to end the game
+            // TODO 06a - detect an Escape key press to end the game
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                // TODO 06b - demonstrate the use of a Window's message box to display information
-                MessageBox(new IntPtr(0), "Escape Key Pressed", "Debug Message", 0);
+                // TODO 06b -demonstrate the use of a Window's message box to display information
+                MessageBox(new IntPtr(0), "Escape key pressed. Click OK to exit.", "Debug Message", 0);
                 Exit();
             }
 
@@ -128,6 +128,7 @@ namespace Demo_MG_ClickBall.Sprint1
         #region HELPER METHODS
 
         // TODO 05a - add a method to draw the wall sprites
+        // method to draw the wall sprites
         /// <summary>
         /// method to add the starting walls to the map
         /// </summary>

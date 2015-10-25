@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System; // TODO 00b - add to allow Windows message box
-using System.Runtime.InteropServices; // TODO 00c - add to allow Windows message box
+using System; // add to allow Windows message box
+using System.Runtime.InteropServices; // add to allow Windows message box
 
 namespace Demo_MG_ClickBall.Sprint2
 {
@@ -11,7 +11,7 @@ namespace Demo_MG_ClickBall.Sprint2
     /// </summary>
     public class BouncingBall : Game
     {
-        // add code to allow Windows message boxes when running in a Windows envrionment
+        // add code to allow Windows message boxes when running in a Windows environment
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
 
@@ -23,18 +23,24 @@ namespace Demo_MG_ClickBall.Sprint2
         private const int MAP_CELL_ROW_COUNT = 8;
         private const int MAP_CELL_COLUMN_COUNT = 8;
 
-        // declare instance variables for for the sprites
+        // declare a GraphicsDevideManater object to handle the graphics of the game
+        private GraphicsDeviceManager _graphics;
+
+        // declare a spriteBatch object 
+        private SpriteBatch _spriteBatch;
+
+        // declare instance variables for the sprites
         private Texture2D _ball;
         private Texture2D _wall;
         private Vector2 _ballPosition;
+        // TODO 04a - add a bool to flag the balls visibility
+        private bool _ballVisible;
 
-        // declare a spriteBatch object
-        private SpriteBatch _spriteBatch;
-
-        private GraphicsDeviceManager _graphics;
+        // TODO 01a - declare a MouseState object to get mouse information
+        private MouseState _mouseState;
 
         /// <summary>
-        /// constructor intitializes the game objects
+        /// constructor initializes the game objects
         /// </summary>
         public BouncingBall()
         {
@@ -58,6 +64,12 @@ namespace Demo_MG_ClickBall.Sprint2
             // set the ball's initial position
             _ballPosition.X = 100;
             _ballPosition.Y = 200;
+
+            // make mouse visible on game
+            this.IsMouseVisible = true;
+
+            // TODO 04b - set the balls visibility
+            _ballVisible = true;
 
             base.Initialize();
         }
@@ -97,8 +109,15 @@ namespace Demo_MG_ClickBall.Sprint2
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 // demonstrate the use of a Window's message box to display information
-                MessageBox(new IntPtr(0), "Escape Key Pressed", "Debug Message", 0);
+                MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
                 Exit();
+            }
+
+            // TODO 03a - if the mouse is over the ball and left button is clicked, make the ball invisible
+            if (MouseOnBall() && (_mouseState.LeftButton == ButtonState.Pressed))
+            {
+                //MessageBox(new IntPtr(0), "Mouse on Ball", "Debug Message", 0);
+                _ballVisible = false;
             }
 
             base.Update(gameTime);
@@ -111,11 +130,16 @@ namespace Demo_MG_ClickBall.Sprint2
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
+
             _spriteBatch.Begin();
 
-            //  draw the ball on the screen using the spriteBatch object
-            _spriteBatch.Draw(_ball, _ballPosition, Color.White);
+            //
+            if (_ballVisible)
+            {
+                //  draw the ball on the screen using the spriteBatch object
+                _spriteBatch.Draw(_ball, _ballPosition, Color.White);
+            }
+
 
             // call the method to draw the wall sprites
             BuildMap();
@@ -159,6 +183,22 @@ namespace Demo_MG_ClickBall.Sprint2
                 _spriteBatch.Draw(_wall, leftWallCellPosition, Color.White);
                 _spriteBatch.Draw(_wall, rightWallCellPosition, Color.White);
             }
+        }
+
+        // TODO 02a add a bool method to determine if the mouse is on the ball
+        /// <summary>
+        /// method to determine if the mouse is on the ball
+        /// </summary>
+        /// <returns></returns>
+        private bool MouseOnBall()
+        {
+            _mouseState = Mouse.GetState();
+
+            if (_mouseState.X < _ballPosition.X) return false;
+            if (_mouseState.X > (_ballPosition.X + _ball.Width)) return false;
+            if (_mouseState.Y < _ballPosition.Y) return false;
+            if (_mouseState.Y > (_ballPosition.Y + _ball.Height)) return false;
+            return true;
         }
 
         #endregion

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Demo_MG_ClickBall.Sprint2
+namespace Demo_MG_ClickBall.Sprint3
 {
 #if WINDOWS || LINUX
     /// <summary>

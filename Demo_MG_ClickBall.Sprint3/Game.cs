@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System; // add to allow Windows message box
 using System.Runtime.InteropServices; // add to allow Windows message box
 
-namespace Demo_MG_ClickBall.Sprint2
+namespace Demo_MG_ClickBall.Sprint3
 {
     /// <summary>
     /// initial layout of game including walls and a ball
@@ -19,9 +19,10 @@ namespace Demo_MG_ClickBall.Sprint2
         private const int CELL_WIDTH = 64;
         private const int CELL_HEIGHT = 64;
 
+        // TODO 00a - increase map size
         // set the map size in cells
         private const int MAP_CELL_ROW_COUNT = 8;
-        private const int MAP_CELL_COLUMN_COUNT = 8;
+        private const int MAP_CELL_COLUMN_COUNT = 12;
 
         // declare a GraphicsDevideManater object to handle the graphics of the game
         private GraphicsDeviceManager _graphics;
@@ -33,11 +34,17 @@ namespace Demo_MG_ClickBall.Sprint2
         private Texture2D _ball;
         private Texture2D _wall;
         private Vector2 _ballPosition;
-        // add a bool to flag the balls visibility
         private bool _ballVisible;
+
+        // TODO 01a - add instance variable to store the ball's speeds; x and y directions
+        private int _ballXSpeed;
+        private int _ballYSpeed;
 
         // declare a MouseState object to get mouse information
         private MouseState _mouseState;
+
+        // TODO 05a - declare a random number generator
+        Random randomNumber01;
 
         /// <summary>
         /// constructor initializes the game objects
@@ -65,11 +72,18 @@ namespace Demo_MG_ClickBall.Sprint2
             _ballPosition.X = 100;
             _ballPosition.Y = 200;
 
+            // TODO 01b - set ball's initial speeds
+            _ballXSpeed = 4;
+            _ballYSpeed = 4;
+
             // make mouse visible on game
             this.IsMouseVisible = true;
 
             // set the balls visibility
             _ballVisible = true;
+
+            // TODO 05b - initialize the random number generator
+            randomNumber01 = new Random();
 
             base.Initialize();
         }
@@ -118,7 +132,13 @@ namespace Demo_MG_ClickBall.Sprint2
             {
                 //MessageBox(new IntPtr(0), "Mouse on Ball", "Debug Message", 0);
                 _ballVisible = false;
+
+                // TODO 04b - call the method to re-spawn the ball in a random location
+                SpawnBall();
             }
+
+            // TODO 02b - call the method to move the ball
+            MoveBall();
 
             base.Update(gameTime);
         }
@@ -197,7 +217,64 @@ namespace Demo_MG_ClickBall.Sprint2
             if (_mouseState.X > (_ballPosition.X + _ball.Width)) return false;
             if (_mouseState.Y < _ballPosition.Y) return false;
             if (_mouseState.Y > (_ballPosition.Y + _ball.Height)) return false;
+
             return true;
+        }
+
+        // TODO 02a - add a method to move the ball
+        /// <summary>
+        /// method to move the ball by changing the X and Y coordinates
+        /// </summary>
+        private void MoveBall()
+        {
+            // TODO 03b - call method to detect and handle ball/wall collisions
+            CollisionBallWall();
+
+            // add coordinate speeds to the ball's position
+            _ballPosition.X = _ballPosition.X + _ballXSpeed;
+            _ballPosition.Y = _ballPosition.Y + _ballYSpeed;
+
+            // alternate way to set new ball position
+            //_ballPosition = new Vector2(_ballPosition.X + _ballXSpeed, _ballPosition.Y + _ballYSpeed);
+        }
+
+        // TODO 03a - add a method to detect and handle ball/wall collisions
+        /// <summary>
+        /// method to "bounce" off the wall
+        /// </summary>
+        /// <returns></returns>
+        private void CollisionBallWall()
+        {
+            // collision with left or right wall
+            if (_ballPosition.X <= CELL_WIDTH || _ballPosition.X >= (MAP_CELL_COLUMN_COUNT - 2) * CELL_WIDTH)
+            {
+                // reverse speed in x direction
+                _ballXSpeed = -_ballXSpeed;
+            }
+            
+            // collision with top or bottom wall
+            if (_ballPosition.Y <= CELL_HEIGHT || _ballPosition.Y >= (MAP_CELL_ROW_COUNT - 2) * CELL_HEIGHT)
+            {
+                // reverse speed in y direction
+                _ballYSpeed = -_ballYSpeed;
+            }
+        }
+
+        // TODO 04a - add a method to re-spawn the ball in a random location
+        /// <summary>
+        /// method to re-spawn the ball in a new random location
+        /// </summary>
+        private void SpawnBall()
+        {
+            // get randomly generated new cell location for the ball
+            int newCellRow = (int)randomNumber01.Next(1, MAP_CELL_ROW_COUNT - 2);
+            int newCellColumn = (int)randomNumber01.Next(1, MAP_CELL_COLUMN_COUNT - 2);
+
+            // set the ball's position to the new cell
+            _ballPosition = new Vector2(newCellColumn * CELL_WIDTH, newCellRow * CELL_HEIGHT);
+
+            // make the ball visible
+            _ballVisible = true;
         }
 
         #endregion

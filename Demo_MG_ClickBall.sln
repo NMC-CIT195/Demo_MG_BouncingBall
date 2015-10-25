@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.Sprint1",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.Sprint2", "Demo_MG_ClickBall.Sprint2\Demo_MG_ClickBall.Sprint2.csproj", "{13989790-DEC3-48E3-ABAE-B5ACF4AD3648}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.Sprint3", "Demo_MG_ClickBall.Sprint3\Demo_MG_ClickBall.Sprint3.csproj", "{D1C82126-D0D0-40EA-8D0D-AB7C18C54531}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -20,6 +22,10 @@ Global
 		{13989790-DEC3-48E3-ABAE-B5ACF4AD3648}.Debug|x86.Build.0 = Debug|x86
 		{13989790-DEC3-48E3-ABAE-B5ACF4AD3648}.Release|x86.ActiveCfg = Release|x86
 		{13989790-DEC3-48E3-ABAE-B5ACF4AD3648}.Release|x86.Build.0 = Release|x86
+		{D1C82126-D0D0-40EA-8D0D-AB7C18C54531}.Debug|x86.ActiveCfg = Debug|x86
+		{D1C82126-D0D0-40EA-8D0D-AB7C18C54531}.Debug|x86.Build.0 = Debug|x86
+		{D1C82126-D0D0-40EA-8D0D-AB7C18C54531}.Release|x86.ActiveCfg = Release|x86
+		{D1C82126-D0D0-40EA-8D0D-AB7C18C54531}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

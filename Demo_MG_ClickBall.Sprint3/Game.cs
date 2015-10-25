@@ -33,10 +33,10 @@ namespace Demo_MG_ClickBall.Sprint2
         private Texture2D _ball;
         private Texture2D _wall;
         private Vector2 _ballPosition;
-        // TODO 02a - add a bool to flag the balls visibility
+        // add a bool to flag the balls visibility
         private bool _ballVisible;
 
-        // TODO 01a - declare a MouseState object to get mouse information
+        // declare a MouseState object to get mouse information
         private MouseState _mouseState;
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Demo_MG_ClickBall.Sprint2
             // make mouse visible on game
             this.IsMouseVisible = true;
 
-            // TODO 02b - set the balls visibility
+            // set the balls visibility
             _ballVisible = true;
 
             base.Initialize();
@@ -83,6 +83,7 @@ namespace Demo_MG_ClickBall.Sprint2
             // instantiate the spriteBatch object
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // add sprite files to Content folder 
             // load images into the game
             _ball = Content.Load<Texture2D>("ball");
             _wall = Content.Load<Texture2D>("wall");
@@ -112,7 +113,7 @@ namespace Demo_MG_ClickBall.Sprint2
                 Exit();
             }
 
-            // TODO 04a - if the mouse is over the ball and left button is clicked, make the ball invisible
+            // if the mouse is over the ball and left button is clicked, make the ball invisible
             if (MouseOnBall() && (_mouseState.LeftButton == ButtonState.Pressed))
             {
                 //MessageBox(new IntPtr(0), "Mouse on Ball", "Debug Message", 0);
@@ -132,7 +133,7 @@ namespace Demo_MG_ClickBall.Sprint2
 
             _spriteBatch.Begin();
 
-            // TODO 02c - draw the ball based on its visibility
+            //
             if (_ballVisible)
             {
                 //  draw the ball on the screen using the spriteBatch object
@@ -184,7 +185,6 @@ namespace Demo_MG_ClickBall.Sprint2
             }
         }
 
-        // TODO 03a - add a bool method to determine if the mouse is on the ball
         /// <summary>
         /// method to determine if the mouse is on the ball
         /// </summary>

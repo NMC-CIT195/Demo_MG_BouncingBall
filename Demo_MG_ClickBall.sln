@@ -2,13 +2,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.Sprint1", "Demo_MG_ClickBall.Sprint1\Demo_MG_ClickBall.Sprint1.csproj", "{5BC368DE-85FF-4EBC-91A3-64BA87E061F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.Sprint1.old", "Demo_MG_ClickBall.Sprint1\Demo_MG_ClickBall.Sprint1.old.csproj", "{5BC368DE-85FF-4EBC-91A3-64BA87E061F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.Sprint2", "Demo_MG_ClickBall.Sprint2\Demo_MG_ClickBall.Sprint2.csproj", "{13989790-DEC3-48E3-ABAE-B5ACF4AD3648}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.Sprint3", "Demo_MG_ClickBall.Sprint3\Demo_MG_ClickBall.Sprint3.csproj", "{D1C82126-D0D0-40EA-8D0D-AB7C18C54531}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.Sprint0", "Demo_MG_ClickBall.Sprint0\Demo_MG_ClickBall.Sprint0.csproj", "{F8BD2521-1656-4898-AAE3-694145E06F2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.D01", "Demo_MG_ClickBall.D01\Demo_MG_ClickBall.D01.csproj", "{F8BD2521-1656-4898-AAE3-694145E06F2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.D02", "Demo_MG_ClickBall.D02\Demo_MG_ClickBall.D02.csproj", "{1AC7478A-D30E-4F72-A3ED-764FED144BB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,16 @@ Global
 		{F8BD2521-1656-4898-AAE3-694145E06F2B}.Release|Mixed Platforms.Build.0 = Release|x86
 		{F8BD2521-1656-4898-AAE3-694145E06F2B}.Release|x86.ActiveCfg = Release|x86
 		{F8BD2521-1656-4898-AAE3-694145E06F2B}.Release|x86.Build.0 = Release|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Debug|x86.ActiveCfg = Debug|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Debug|x86.Build.0 = Debug|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Release|Any CPU.ActiveCfg = Release|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Release|x86.ActiveCfg = Release|x86
+		{1AC7478A-D30E-4F72-A3ED-764FED144BB3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

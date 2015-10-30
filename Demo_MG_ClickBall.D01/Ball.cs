@@ -68,7 +68,7 @@ namespace Demo_MG_ClickBall
             _contentManager = contentManager;
             _ballSpriteName = ballSpriteName;
             _ballPosition = ballPositiion;
-            
+
             // load the ball image into the Texture2D for the ball sprite
             _ballSprite = _contentManager.Load<Texture2D>(_ballSpriteName);
         }
@@ -88,9 +88,8 @@ namespace Demo_MG_ClickBall
                 spriteBatch.Draw(_ballSprite, _ballPosition, Color.White);
             }
         }
-        
-        #endregion
 
+        #endregion
 
     }
 }

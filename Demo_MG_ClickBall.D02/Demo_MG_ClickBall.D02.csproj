@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F8BD2521-1656-4898-AAE3-694145E06F2B}</ProjectGuid>
+    <ProjectGuid>{1AC7478A-D30E-4F72-A3ED-764FED144BB3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Demo_MG_ClickBall.Sprint0</RootNamespace>
-    <AssemblyName>Demo_MG_ClickBall.Sprint0</AssemblyName>
+    <RootNamespace>Demo_MG_ClickBall.D02</RootNamespace>
+    <AssemblyName>Demo_MG_ClickBall.D02</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <MonoGameContentBuilderExe>
@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Wall.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="ClickBall.cs" />
     <Compile Include="Program.cs" />
@@ -52,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Ball.png" />
+    <Content Include="Content\Wall.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

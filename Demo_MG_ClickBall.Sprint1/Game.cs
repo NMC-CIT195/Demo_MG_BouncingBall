@@ -24,9 +24,17 @@ namespace Demo_MG_ClickBall.Sprint1
         private const int MAP_CELL_COLUMN_COUNT = 8;
 
         // TODO 03b - declare instance variables for the sprites
-        private Texture2D _ball;
+        private Texture2D _ballSpriteName;
         private Texture2D _wall;
         private Vector2 _ballPosition;
+        private Ball _ball;
+
+        public Ball Ball
+        {
+            get { return _ball; }
+            set { _ball = value; }
+        }
+        
 
         // TODO 02a - declare a spriteBatch object
         private SpriteBatch _spriteBatch;
@@ -73,7 +81,9 @@ namespace Demo_MG_ClickBall.Sprint1
 
             // TODO 03a - add sprite files to Content folder 
             // TODO 03c - load images into the game
-            _ball = Content.Load<Texture2D>("ball");
+            _ballSpriteName = Content.Load<Texture2D>("ball");
+
+            _ball = new Ball(Content, _ballSpriteName, _ballPosition);
             _wall = Content.Load<Texture2D>("wall");
         }
 
@@ -115,7 +125,7 @@ namespace Demo_MG_ClickBall.Sprint1
             _spriteBatch.Begin();
 
             // TODO 04b - draw the ball on the screen using the spriteBatch object
-            _spriteBatch.Draw(_ball, _ballPosition, Color.White);
+            _spriteBatch.Draw(_ballSpriteName, _ballPosition, Color.White);
 
             // TODO 05b - call the method to draw the wall sprites
             BuildMap();

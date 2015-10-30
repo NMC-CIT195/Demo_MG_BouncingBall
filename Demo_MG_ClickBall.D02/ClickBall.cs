@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Runtime.InteropServices;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,15 +11,26 @@ namespace Demo_MG_ClickBall
     /// </summary>
     public class ClickBall : Game
     {
+        // TODO 00a - add code to allow Windows message boxes when running in a Windows environment
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
+
+        // TODO 01a - set the cell size in pixels
+        private const int CELL_WIDTH = 64;
+        private const int CELL_HEIGHT = 64;
+
+        // TODO 01b - set the map size in cells
+        private const int MAP_CELL_ROW_COUNT = 8;
+        private const int MAP_CELL_COLUMN_COUNT = 8;
         // declare instance variables for the sprites
         private string _ballSpriteName;
-        private string _wallSpriteName;
         private Vector2 _ballPosition;
-        private Vector2 _wallPosition;
         private Ball _ball;
+
+        private string _wallSpriteName;
+        private Vector2 _wallPosition;
         private Wall _wall;
        
-
         // declare a spriteBatch object
         private SpriteBatch _spriteBatch;
 
@@ -30,9 +43,9 @@ namespace Demo_MG_ClickBall
         {
             _graphics = new GraphicsDeviceManager(this);
 
-            // TODO 01c - set the window size as a function of cell size and cell count
-            _graphics.PreferredBackBufferWidth = 640;
-            _graphics.PreferredBackBufferHeight = 640;
+            // set the window size as a function of cell size and cell count
+            _graphics.PreferredBackBufferWidth = MAP_CELL_COLUMN_COUNT * CELL_WIDTH;
+            _graphics.PreferredBackBufferHeight = MAP_CELL_ROW_COUNT * CELL_HEIGHT;
 
             Content.RootDirectory = "Content";
         }
@@ -51,8 +64,6 @@ namespace Demo_MG_ClickBall
             _ballSpriteName = "Ball";
 
             // set the wall's initial values
-            _wallPosition.X = 200;
-            _wallPosition.Y = 200;
             _wallSpriteName = "Wall";
 
             base.Initialize();
@@ -92,11 +103,12 @@ namespace Demo_MG_ClickBall
             // detect an Escape key press to end the game
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
+                // demonstrate the use of a Window's message box to display information
+                MessageBox(new IntPtr(0), "Escape key pressed. Click OK to exit.", "Debug Message", 0);
                 Exit();
             }
 
             _ball.Active = true;
-            _wall.Active = true;
 
             base.Update(gameTime);
         }
@@ -112,7 +124,8 @@ namespace Demo_MG_ClickBall
             _spriteBatch.Begin();
 
             _ball.Draw(_spriteBatch);
-            _wall.Draw(_spriteBatch);
+
+            BuildMap();
 
             _spriteBatch.End();
 
@@ -121,7 +134,51 @@ namespace Demo_MG_ClickBall
 
         #region HELPER METHODS
 
+        // TODO 05a - add a method to draw the wall sprites
+        // method to draw the wall sprites
+        /// <summary>
+        /// method to add the starting walls to the map
+        /// </summary>
+        private void BuildMap()
+        {
+            // Draw top and bottom walls
+            for (int column = 0; column < MAP_CELL_COLUMN_COUNT; column++)
+            {
+                int wallCellXPos = column * CELL_WIDTH;
+                int topWallYPos = 0;
+                int bottomWallYPos = (MAP_CELL_ROW_COUNT - 1) * CELL_HEIGHT;
 
+                Vector2 topWallCellPosition = new Vector2(wallCellXPos, topWallYPos);
+                Vector2 bottonWallCellPosition = new Vector2(wallCellXPos, bottomWallYPos);
+
+                Wall topWallSection = new Wall(Content, _wallSpriteName, topWallCellPosition);
+                topWallSection.Active = true;
+                topWallSection.Draw(_spriteBatch);
+
+                Wall bottomWallSection = new Wall(Content, _wallSpriteName, bottonWallCellPosition);
+                bottomWallSection.Active = true;
+                bottomWallSection.Draw(_spriteBatch);
+            }
+
+            // Draw side walls
+            for (int row = 0; row < MAP_CELL_ROW_COUNT - 2; row++)
+            {
+                int wallYPos = (row + 1) * CELL_HEIGHT;
+                int leftWallXPos = 0;
+                int rightWallXPos = (MAP_CELL_COLUMN_COUNT - 1) * CELL_HEIGHT;
+
+                Vector2 leftWallCellPosition = new Vector2(leftWallXPos, wallYPos);
+                Vector2 rightWallCellPosition = new Vector2(rightWallXPos, wallYPos);
+
+                Wall leftWallSection = new Wall(Content, _wallSpriteName, leftWallCellPosition);
+                leftWallSection.Active = true;
+                leftWallSection.Draw(_spriteBatch);
+
+                Wall rightWallSection = new Wall(Content, _wallSpriteName, rightWallCellPosition);
+                rightWallSection.Active = true;
+                rightWallSection.Draw(_spriteBatch);
+            }
+        }
 
         #endregion
     }

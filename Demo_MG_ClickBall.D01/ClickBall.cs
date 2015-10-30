@@ -27,7 +27,7 @@ namespace Demo_MG_ClickBall
         {
             _graphics = new GraphicsDeviceManager(this);
 
-            // TODO 01c - set the window size as a function of cell size and cell count
+            // set the window size as a function of cell size and cell count
             _graphics.PreferredBackBufferWidth = 640;
             _graphics.PreferredBackBufferHeight = 640;
 

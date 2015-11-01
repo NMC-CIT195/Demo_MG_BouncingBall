@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\BackgroundSandyStained.png" />
     <Content Include="Content\Ball.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>

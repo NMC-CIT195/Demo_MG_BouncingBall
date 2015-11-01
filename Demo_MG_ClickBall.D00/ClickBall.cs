@@ -59,8 +59,8 @@ namespace Demo_MG_ClickBall
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // load the background and ball sprites
             _background = Content.Load<Texture2D>("BackgroundSandyStained");
-
             _ball = Content.Load<Texture2D>("ball");
         }
 
@@ -98,8 +98,8 @@ namespace Demo_MG_ClickBall
 
             _spriteBatch.Begin();
 
+            // draw the background and the ball
             _spriteBatch.Draw(_background, _backgroundPosition, Color.White);
-
             _spriteBatch.Draw(_ball, _ballPosition, Color.White);
 
             _spriteBatch.End();

@@ -9,12 +9,15 @@ namespace Demo_MG_ClickBall
     /// </summary>
     public class ClickBall : Game
     {
+        // declare instance variables for the background
+        private Texture2D _background;
+        private Rectangle _backgroundPosition;
+
         // declare instance variables for the sprites
         private string _ballSpriteName;
         private Vector2 _ballPosition;
         private Ball _ball;
-       
-
+ 
         // declare a spriteBatch object
         private SpriteBatch _spriteBatch;
 
@@ -29,7 +32,7 @@ namespace Demo_MG_ClickBall
 
             // set the window size 
             _graphics.PreferredBackBufferWidth = 640;
-            _graphics.PreferredBackBufferHeight = 640;
+            _graphics.PreferredBackBufferHeight = 480;
 
             Content.RootDirectory = "Content";
         }
@@ -42,6 +45,9 @@ namespace Demo_MG_ClickBall
         /// </summary>
         protected override void Initialize()
         {
+            // set the background's initial position
+            _backgroundPosition = new Rectangle(0, 0, 640, 480);    
+
             // set the ball's initial position
             _ballPosition.X = 100;
             _ballPosition.Y = 200;
@@ -60,6 +66,8 @@ namespace Demo_MG_ClickBall
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // load the background and ball sprites
+            _background = Content.Load<Texture2D>("BackgroundSandyStained");
             _ball = new Ball(Content, _ballSpriteName, _ballPosition);
 
             _ball.Draw(_spriteBatch);
@@ -102,6 +110,8 @@ namespace Demo_MG_ClickBall
             
             _spriteBatch.Begin();
 
+            // draw the background and the ball
+            _spriteBatch.Draw(_background, _backgroundPosition, Color.White);
             _ball.Draw(_spriteBatch);
 
             _spriteBatch.End();

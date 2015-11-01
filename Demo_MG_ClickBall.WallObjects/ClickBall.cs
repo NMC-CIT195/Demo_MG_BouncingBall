@@ -1,5 +1,5 @@
-﻿using System; // add to allow Windows message box
-using System.Runtime.InteropServices; // add to allow Windows message box
+﻿using System;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -23,26 +23,21 @@ namespace Demo_MG_ClickBall
         private const int MAP_CELL_ROW_COUNT = 8;
         private const int MAP_CELL_COLUMN_COUNT = 10;
 
-        // set the window size
-        private const int WINDOW_WIDTH = MAP_CELL_COLUMN_COUNT * CELL_WIDTH;
-        private const int WINDOW_HEIGHT = MAP_CELL_ROW_COUNT * CELL_HEIGHT;
-
-        // create a random number set
-        private Random _randomNumbers = new Random();
-
+        // declare instance variables for the sprites
         // declare instance variables for the background
         private Texture2D _background;
         private Rectangle _backgroundPosition;
 
-        // declare instance variables for the sprites
+        private string _ballSpriteName;
+        private Vector2 _ballPosition;
         private Ball _ball;
 
+        private string _wallSpriteName;
+        private Vector2 _wallPosition;
+        private Wall _wall;
+       
         // declare a spriteBatch object
         private SpriteBatch _spriteBatch;
-
-        // declare a MouseState object to get mouse information
-        private MouseState _mouseOldState;
-        private MouseState _mouseNewState;
 
         private GraphicsDeviceManager _graphics;
 
@@ -53,7 +48,7 @@ namespace Demo_MG_ClickBall
         {
             _graphics = new GraphicsDeviceManager(this);
 
-            // set the window size 
+            // set the window size as a function of cell size and cell count
             _graphics.PreferredBackBufferWidth = MAP_CELL_COLUMN_COUNT * CELL_WIDTH;
             _graphics.PreferredBackBufferHeight = MAP_CELL_ROW_COUNT * CELL_HEIGHT;
 
@@ -69,21 +64,15 @@ namespace Demo_MG_ClickBall
         protected override void Initialize()
         {
             // set the background's initial position
-            _backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+            _backgroundPosition = new Rectangle(0, 0, 640, 480);    
 
-            // create a ball object
-            string spriteName = "Ball";
-            Vector2 position = new Vector2(300, 200);
-            Vector2 velocity = new Vector2(2, 2);
-            _ball = new Ball(Content, spriteName, position, velocity);
+            // set the ball's initial values
+            _ballPosition.X = 100;
+            _ballPosition.Y = 200;
+            _ballSpriteName = "Ball";
 
-            // _ball = new Ball(Content, "Ball", new Vector2(300, 200), new Vector2( 2, 2));
-
-            // make the ball active
-            _ball.Active = true;
-
-            // make mouse visible on game
-            this.IsMouseVisible = true;
+            // set the wall's initial values
+            _wallSpriteName = "Wall";
 
             base.Initialize();
         }
@@ -97,9 +86,15 @@ namespace Demo_MG_ClickBall
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // load the background sprite
-            // ball sprite loaded when instantiated
             _background = Content.Load<Texture2D>("BackgroundSandyStained");
 
+            // instantiate a Ball and Wall
+            _ball = new Ball(Content, _ballSpriteName, _ballPosition);
+            _wall = new Wall(Content, _wallSpriteName, _wallPosition);
+
+            //
+            _ball.Draw(_spriteBatch);
+            _wall.Draw(_spriteBatch);
         }
 
         /// <summary>
@@ -118,27 +113,15 @@ namespace Demo_MG_ClickBall
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
             // detect an Escape key press to end the game
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 // demonstrate the use of a Window's message box to display information
-                MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
+                MessageBox(new IntPtr(0), "Escape key pressed. Click OK to exit.", "Debug Message", 0);
                 Exit();
             }
 
-            // if the mouse is over the ball and left button is clicked, make the ball invisible
-            if (MouseClickOnBall())
-            {
-                //_ball.Active = false;
-                Spawn(_ball);
-            }
-
-            if (_ball.Active)
-            {
-                BounceOffWalls();
-                _ball.Position += _ball.Velocity;
-            }
+            _ball.Active = true;
 
             base.Update(gameTime);
         }
@@ -150,12 +133,15 @@ namespace Demo_MG_ClickBall
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            
             _spriteBatch.Begin();
 
             // draw the background and the ball
             _spriteBatch.Draw(_background, _backgroundPosition, Color.White);
             _ball.Draw(_spriteBatch);
+
+            // call the BuildMap method to add all of the walls
+            BuildMap();
 
             _spriteBatch.End();
 
@@ -164,63 +150,52 @@ namespace Demo_MG_ClickBall
 
         #region HELPER METHODS
 
+        // TODO 05a - add a method to draw the wall sprites
+        // method to draw the wall sprites
         /// <summary>
-        /// method to bounce ball of walls
+        /// method to add the starting walls to the map
         /// </summary>
-        public void BounceOffWalls()
+        private void BuildMap()
         {
-            // ball is at the top or bottom of the window, change the Y direction
-            if ((_ball.Position.Y > WINDOW_HEIGHT - CELL_HEIGHT) || (_ball.Position.Y < 0))
+            // Draw top and bottom walls
+            for (int column = 0; column < MAP_CELL_COLUMN_COUNT; column++)
             {
-                _ball.Velocity = new Vector2(_ball.Velocity.X, -_ball.Velocity.Y);
+                int wallCellXPos = column * CELL_WIDTH;
+                int topWallYPos = 0;
+                int bottomWallYPos = (MAP_CELL_ROW_COUNT - 1) * CELL_HEIGHT;
+
+                Vector2 topWallCellPosition = new Vector2(wallCellXPos, topWallYPos);
+                Vector2 bottonWallCellPosition = new Vector2(wallCellXPos, bottomWallYPos);
+
+                Wall topWallSection = new Wall(Content, _wallSpriteName, topWallCellPosition);
+                topWallSection.Active = true;
+                topWallSection.Draw(_spriteBatch);
+
+                Wall bottomWallSection = new Wall(Content, _wallSpriteName, bottonWallCellPosition);
+                bottomWallSection.Active = true;
+                bottomWallSection.Draw(_spriteBatch);
             }
-            // ball is at the left or right of the window, change the X direction
-            else if ((_ball.Position.X > WINDOW_WIDTH - CELL_WIDTH) || (_ball.Position.X < 0))
+
+            // Draw side walls
+            for (int row = 0; row < MAP_CELL_ROW_COUNT - 2; row++)
             {
-                _ball.Velocity = new Vector2(-_ball.Velocity.X, _ball.Velocity.Y);
+                int wallYPos = (row + 1) * CELL_HEIGHT;
+                int leftWallXPos = 0;
+                int rightWallXPos = (MAP_CELL_COLUMN_COUNT - 1) * CELL_HEIGHT;
+
+                Vector2 leftWallCellPosition = new Vector2(leftWallXPos, wallYPos);
+                Vector2 rightWallCellPosition = new Vector2(rightWallXPos, wallYPos);
+
+                Wall leftWallSection = new Wall(Content, _wallSpriteName, leftWallCellPosition);
+                leftWallSection.Active = true;
+                leftWallSection.Draw(_spriteBatch);
+
+                Wall rightWallSection = new Wall(Content, _wallSpriteName, rightWallCellPosition);
+                rightWallSection.Active = true;
+                rightWallSection.Draw(_spriteBatch);
             }
         }
 
-        /// <summary>
-        /// method to determine if the mouse is on the ball
-        /// </summary>
-        /// <returns></returns>
-        private bool MouseClickOnBall()
-        {
-            bool mouseClickedOnBall = false;
-
-            // get the current state of the mouse
-            _mouseNewState = Mouse.GetState();
-
-            // left mouse button was a click
-            if (_mouseNewState.LeftButton == ButtonState.Pressed && _mouseOldState.LeftButton == ButtonState.Released)
-            {
-                // mouse over ball
-                if ((_mouseNewState.X > _ball.Position.X) &&
-                    (_mouseNewState.X < (_ball.Position.X + 64)) &&
-                    (_mouseNewState.Y > _ball.Position.Y) &&
-                    (_mouseNewState.Y < (_ball.Position.Y + 64)))
-                {
-                    mouseClickedOnBall = true;
-                }
-             }
-            
-            // store the current state of the mouse as the old state
-            _mouseOldState = _mouseNewState;
-
-            return mouseClickedOnBall;
-        }
         #endregion
-
-        private void Spawn(Ball ball)
-        {
-            // find a valid location to spawn the ball
-            int ballXPosition = _randomNumbers.Next(WINDOW_WIDTH - CELL_WIDTH);
-            int ballYPosition = _randomNumbers.Next(WINDOW_HEIGHT - CELL_HEIGHT);
-
-            // set ball's new position and reverse direction
-            ball.Position = new Vector2(ballXPosition, ballYPosition);
-            ball.Velocity = -ball.Velocity;
-        }
     }
 }

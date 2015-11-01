@@ -30,7 +30,7 @@ namespace Demo_MG_ClickBall
 
             // set the window size 
             _graphics.PreferredBackBufferWidth = 640;
-            _graphics.PreferredBackBufferHeight = 480;
+            _graphics.PreferredBackBufferHeight = 512;
 
             Content.RootDirectory = "Content";
         }
@@ -44,7 +44,7 @@ namespace Demo_MG_ClickBall
         protected override void Initialize()
         {
             // set the background's initial position
-            _backgroundPosition = new Rectangle(0, 0, 640, 480);
+            _backgroundPosition = new Rectangle(0, 0, 640, 512);
 
             // create a ball object
             string spriteName = "Ball";

@@ -2,33 +2,19 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Demo_MG_ClickBall
+namespace Demo_MG_ClickBall.WallObjects
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class ClickBall : Game
+    public class Game1 : Game
     {
-        GraphicsDeviceManager _graphics;
-        SpriteBatch _spriteBatch;
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
 
-        // declare instance variables for the background
-        private Texture2D _background;
-        private Rectangle _backgroundPosition;
-
-        // declare instance variables for the ball sprite and vector position
-        private Texture2D _ball;
-        private Vector2 _ballPosition;
-
-        public ClickBall()
+        public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
-
-
-            // set the window size 
-            _graphics.PreferredBackBufferWidth = 640;
-            _graphics.PreferredBackBufferHeight = 512;
-
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -40,12 +26,7 @@ namespace Demo_MG_ClickBall
         /// </summary>
         protected override void Initialize()
         {
-            // set the ball's initial position
-            _ballPosition.X = 100;
-            _ballPosition.Y = 200;
-
-            // set the background's initial position
-            _backgroundPosition = new Rectangle(0, 0, 640, 512);
+            // TODO: Add your initialization logic here
 
             base.Initialize();
         }
@@ -57,11 +38,9 @@ namespace Demo_MG_ClickBall
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // load the background and ball sprites
-            _background = Content.Load<Texture2D>("BackgroundSandyStained");
-            _ball = Content.Load<Texture2D>("ball");
+            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -96,13 +75,7 @@ namespace Demo_MG_ClickBall
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
-
-            // draw the background and the ball
-            _spriteBatch.Draw(_background, _backgroundPosition, Color.White);
-            _spriteBatch.Draw(_ball, _ballPosition, Color.White);
-
-            _spriteBatch.End();
+            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }

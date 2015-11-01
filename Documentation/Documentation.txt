@@ -1,0 +1,20 @@
+﻿Solution: Demo_MG_ClickBall
+Author: John E Velis
+Created: 11/1/2015
+Last Modified: 11/2/2015
+
+Project: D00
+Description: Simple MonoGame project adds a background and ball to the game screen
+
+Project: D01
+Description: Adds a Ball class to the project and uses a ball object in the game
+
+Project: D02
+Description: Add constants to handle magic numbers
+             Adds ball movement and bounce the ball off of the sides of the window
+             Adds the Windows MessageBox capability
+             Adds mouse click event to destroy the ball and spawn in a new location
+
+Project: D03
+Description: Add text 
+             Adds ball movement and bounce the ball off of the sides of the window

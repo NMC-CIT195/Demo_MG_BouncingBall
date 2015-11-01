@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1C89E509-37AD-4A2D-B19C-CE158AE3D4B1}</ProjectGuid>
+    <ProjectGuid>{F75676B6-0EB9-471B-9274-DB2C5C7C12CA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Demo_MG_ClickBall.D02</RootNamespace>
-    <AssemblyName>Demo_MG_ClickBall.D02</AssemblyName>
+    <RootNamespace>Game1</RootNamespace>
+    <AssemblyName>Game1</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <MonoGameContentBuilderExe>
@@ -38,14 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Ball.cs">
-      <SubType>
-      </SubType>
-    </Compile>
-    <Compile Include="ClickBall.cs">
-      <SubType>
-      </SubType>
-    </Compile>
+    <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,8 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\BackgroundSandyStained.png" />
-    <Content Include="Content\Ball.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

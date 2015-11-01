@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -11,26 +9,13 @@ namespace Demo_MG_ClickBall
     /// </summary>
     public class ClickBall : Game
     {
-        // TODO 00a - add code to allow Windows message boxes when running in a Windows environment
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern uint MessageBox(IntPtr hWnd, String text, String caption, uint type);
+        // declare instance variables for the background
+        private Texture2D _background;
+        private Rectangle _backgroundPosition;
 
-        // TODO 01a - set the cell size in pixels
-        private const int CELL_WIDTH = 64;
-        private const int CELL_HEIGHT = 64;
-
-        // TODO 01b - set the map size in cells
-        private const int MAP_CELL_ROW_COUNT = 8;
-        private const int MAP_CELL_COLUMN_COUNT = 8;
         // declare instance variables for the sprites
-        private string _ballSpriteName;
-        private Vector2 _ballPosition;
         private Ball _ball;
 
-        private string _wallSpriteName;
-        private Vector2 _wallPosition;
-        private Wall _wall;
-       
         // declare a spriteBatch object
         private SpriteBatch _spriteBatch;
 
@@ -43,9 +28,9 @@ namespace Demo_MG_ClickBall
         {
             _graphics = new GraphicsDeviceManager(this);
 
-            // set the window size as a function of cell size and cell count
-            _graphics.PreferredBackBufferWidth = MAP_CELL_COLUMN_COUNT * CELL_WIDTH;
-            _graphics.PreferredBackBufferHeight = MAP_CELL_ROW_COUNT * CELL_HEIGHT;
+            // set the window size 
+            _graphics.PreferredBackBufferWidth = 640;
+            _graphics.PreferredBackBufferHeight = 480;
 
             Content.RootDirectory = "Content";
         }
@@ -58,13 +43,20 @@ namespace Demo_MG_ClickBall
         /// </summary>
         protected override void Initialize()
         {
-            // set the ball's initial values
-            _ballPosition.X = 100;
-            _ballPosition.Y = 200;
-            _ballSpriteName = "Ball";
+            // set the background's initial position
+            _backgroundPosition = new Rectangle(0, 0, 640, 480);
 
-            // set the wall's initial values
-            _wallSpriteName = "Wall";
+            // create a ball object
+            string spriteName = "Ball";
+            Vector2 position = new Vector2(300, 200);
+            Vector2 velocity = new Vector2(2, 2);
+            _ball = new Ball(Content, spriteName, position, velocity);
+
+            // make the ball active
+            _ball.Active = true;
+
+            // _ball = new Ball(Content, "Ball", new Vector2(300, 200), new Vector2( 2, 2));
+
 
             base.Initialize();
         }
@@ -77,11 +69,10 @@ namespace Demo_MG_ClickBall
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _ball = new Ball(Content, _ballSpriteName, _ballPosition);
-            _wall = new Wall(Content, _wallSpriteName, _wallPosition);
+            // load the background sprite
+            // ball sprite loaded when instantiated
+            _background = Content.Load<Texture2D>("BackgroundSandyStained");
 
-            _ball.Draw(_spriteBatch);
-            _wall.Draw(_spriteBatch);
         }
 
         /// <summary>
@@ -103,12 +94,15 @@ namespace Demo_MG_ClickBall
             // detect an Escape key press to end the game
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                // demonstrate the use of a Window's message box to display information
-                MessageBox(new IntPtr(0), "Escape key pressed. Click OK to exit.", "Debug Message", 0);
                 Exit();
             }
 
-            _ball.Active = true;
+
+            if (_ball.Active)
+            {
+                BounceOffWalls();
+                _ball.Position += _ball.Velocity;
+            }
 
             base.Update(gameTime);
         }
@@ -120,12 +114,12 @@ namespace Demo_MG_ClickBall
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
+
             _spriteBatch.Begin();
 
+            // draw the background and the ball
+            _spriteBatch.Draw(_background, _backgroundPosition, Color.White);
             _ball.Draw(_spriteBatch);
-
-            BuildMap();
 
             _spriteBatch.End();
 
@@ -134,51 +128,23 @@ namespace Demo_MG_ClickBall
 
         #region HELPER METHODS
 
-        // TODO 05a - add a method to draw the wall sprites
-        // method to draw the wall sprites
         /// <summary>
-        /// method to add the starting walls to the map
+        /// method to bounce ball of walls
         /// </summary>
-        private void BuildMap()
+        public void BounceOffWalls()
         {
-            // Draw top and bottom walls
-            for (int column = 0; column < MAP_CELL_COLUMN_COUNT; column++)
+            // ball is at the top or bottom of the window, change the Y direction
+            if ((_ball.Position.Y > 480 - 64) || (_ball.Position.Y < 0))
             {
-                int wallCellXPos = column * CELL_WIDTH;
-                int topWallYPos = 0;
-                int bottomWallYPos = (MAP_CELL_ROW_COUNT - 1) * CELL_HEIGHT;
-
-                Vector2 topWallCellPosition = new Vector2(wallCellXPos, topWallYPos);
-                Vector2 bottonWallCellPosition = new Vector2(wallCellXPos, bottomWallYPos);
-
-                Wall topWallSection = new Wall(Content, _wallSpriteName, topWallCellPosition);
-                topWallSection.Active = true;
-                topWallSection.Draw(_spriteBatch);
-
-                Wall bottomWallSection = new Wall(Content, _wallSpriteName, bottonWallCellPosition);
-                bottomWallSection.Active = true;
-                bottomWallSection.Draw(_spriteBatch);
+                _ball.Velocity = new Vector2(_ball.Velocity.X, -_ball.Velocity.Y);
             }
-
-            // Draw side walls
-            for (int row = 0; row < MAP_CELL_ROW_COUNT - 2; row++)
+            // ball is at the left or right of the window, change the X direction
+            else if ((_ball.Position.X > 640 - 64) || (_ball.Position.X < 0))
             {
-                int wallYPos = (row + 1) * CELL_HEIGHT;
-                int leftWallXPos = 0;
-                int rightWallXPos = (MAP_CELL_COLUMN_COUNT - 1) * CELL_HEIGHT;
-
-                Vector2 leftWallCellPosition = new Vector2(leftWallXPos, wallYPos);
-                Vector2 rightWallCellPosition = new Vector2(rightWallXPos, wallYPos);
-
-                Wall leftWallSection = new Wall(Content, _wallSpriteName, leftWallCellPosition);
-                leftWallSection.Active = true;
-                leftWallSection.Draw(_spriteBatch);
-
-                Wall rightWallSection = new Wall(Content, _wallSpriteName, rightWallCellPosition);
-                rightWallSection.Active = true;
-                rightWallSection.Draw(_spriteBatch);
+                _ball.Velocity = new Vector2(-_ball.Velocity.X, _ball.Velocity.Y);
             }
         }
+
 
         #endregion
     }

@@ -16,9 +16,10 @@ namespace Demo_MG_ClickBall
         #region FIELDS
 
         private ContentManager _contentManager;
-        private string _ballSpriteName;
-        private Texture2D _ballSprite;
-        private Vector2 _ballPosition;
+        private string _spriteName;
+        private Texture2D _sprite;
+        private Vector2 _position;
+        private Vector2 _velocity;
         private bool _active;
 
         #endregion
@@ -31,16 +32,28 @@ namespace Demo_MG_ClickBall
             set { _contentManager = value; }
         }
 
-        public string ballSpriteName
+        public string SpriteName
         {
-            get { return _ballSpriteName; }
-            set { _ballSpriteName = value; }
+            get { return _spriteName; }
+            set { _spriteName = value; }
         }
 
-        public Vector2 BallPosition
+        public Texture2D Sprite
         {
-            get { return _ballPosition; }
-            set { _ballPosition = value; }
+            get { return _sprite; }
+            set { _sprite = value; }
+        }
+
+        public Vector2 Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
+
+        public Vector2 Velocity
+        {
+            get { return _velocity; }
+            set { _velocity = value; }
         }
 
         public bool Active
@@ -57,20 +70,22 @@ namespace Demo_MG_ClickBall
         /// instantiate a new ball
         /// </summary>
         /// <param name="contentManager">game content manager object</param>
-        /// <param name="ballSpriteName">file name of sprite</param>
-        /// <param name="ballPositiion">vector position of ball</param>
+        /// <param name="spriteName">file name of sprite</param>
+        /// <param name="positiion">vector position of ball</param>
         public Ball(
             ContentManager contentManager,
-            string ballSpriteName,
-            Vector2 ballPositiion
+            string spriteName,
+            Vector2 positiion,
+            Vector2 velocity
             )
         {
             _contentManager = contentManager;
-            _ballSpriteName = ballSpriteName;
-            _ballPosition = ballPositiion;
+            _spriteName = spriteName;
+            _position = positiion;
+            _velocity = velocity;
 
             // load the ball image into the Texture2D for the ball sprite
-            _ballSprite = _contentManager.Load<Texture2D>(_ballSpriteName);
+            _sprite = _contentManager.Load<Texture2D>(_spriteName);
         }
 
         #endregion
@@ -85,9 +100,10 @@ namespace Demo_MG_ClickBall
             // only draw the ball if it is active
             if (_active)
             {
-                spriteBatch.Draw(_ballSprite, _ballPosition, Color.White);
+                spriteBatch.Draw(_sprite, _position, Color.White);
             }
         }
+
 
         #endregion
 

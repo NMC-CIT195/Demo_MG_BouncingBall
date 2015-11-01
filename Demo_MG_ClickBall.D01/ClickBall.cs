@@ -14,10 +14,8 @@ namespace Demo_MG_ClickBall
         private Rectangle _backgroundPosition;
 
         // declare instance variables for the sprites
-        private string _ballSpriteName;
-        private Vector2 _ballPosition;
         private Ball _ball;
- 
+
         // declare a spriteBatch object
         private SpriteBatch _spriteBatch;
 
@@ -46,14 +44,18 @@ namespace Demo_MG_ClickBall
         protected override void Initialize()
         {
             // set the background's initial position
-            _backgroundPosition = new Rectangle(0, 0, 640, 480);    
+            _backgroundPosition = new Rectangle(0, 0, 640, 480);
 
-            // set the ball's initial position
-            _ballPosition.X = 100;
-            _ballPosition.Y = 200;
+            // create a ball object
+            string spriteName = "Ball";
+            Vector2 position = new Vector2(300, 200);
+            Vector2 velocity = new Vector2(2, 2);
+            _ball = new Ball(Content, spriteName, position, velocity);
 
-            _ballSpriteName = "Ball";
+            // _ball = new Ball(Content, "Ball", new Vector2(300, 200), new Vector2( 2, 2));
 
+            // make the ball active
+            _ball.Active = true;
 
             base.Initialize();
         }
@@ -66,11 +68,9 @@ namespace Demo_MG_ClickBall
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // load the background and ball sprites
+            // load the background sprite
+            // ball sprite loaded when instantiated
             _background = Content.Load<Texture2D>("BackgroundSandyStained");
-            _ball = new Ball(Content, _ballSpriteName, _ballPosition);
-
-            _ball.Draw(_spriteBatch);
         }
 
         /// <summary>
@@ -95,8 +95,6 @@ namespace Demo_MG_ClickBall
                 Exit();
             }
 
-            _ball.Active = true;
-
             base.Update(gameTime);
         }
 
@@ -107,7 +105,7 @@ namespace Demo_MG_ClickBall
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
+
             _spriteBatch.Begin();
 
             // draw the background and the ball

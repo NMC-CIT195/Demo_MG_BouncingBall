@@ -98,10 +98,15 @@ namespace Demo_MG_ClickBall
             _backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             // create a ball object
-            _ball = new Ball(Content, "Ball", new Vector2(300, 200), new Vector2( 2, 2));
+            _balls = new List<Ball>();
+            Ball ball01 = new Ball(Content, "Ball", new Vector2(300, 200), new Vector2(2, 2));
+            _balls.Add(ball01);
+            Ball ball02 = new Ball(Content, "Ball", new Vector2(100, 400), new Vector2(2, 2));
+            _balls.Add(ball02);
 
-            // make the ball active
-            _ball.Active = true;
+            // make the balls active
+            ball01.Active = true;
+            ball02.Active = true;
 
             // make mouse visible on game
             this.IsMouseVisible = true;
@@ -148,7 +153,7 @@ namespace Demo_MG_ClickBall
             {
                 HandleKeyboardEvents();
                 HandleMouseEvents();
-                UpdateBallMovement(_ball);
+                UpdateBallMovement(_balls);
                 UpdateTimer(gameTime);
 
                 base.Update(gameTime);
@@ -178,7 +183,11 @@ namespace Demo_MG_ClickBall
 
             // draw the background and the ball
             _spriteBatch.Draw(_background, _backgroundPosition, Color.White);
-            _ball.Draw(_spriteBatch);
+            foreach (var ball in _balls)
+            {
+                ball.Draw(_spriteBatch);
+            }
+
 
             DrawScoreTimer();
 
@@ -189,51 +198,88 @@ namespace Demo_MG_ClickBall
 
         #region HELPER METHODS
 
+
+        /// <summary>
+        /// method to move the ball forward and bounce off the sites of the screen
+        /// </summary>
+        /// <param name="_ball">ball object</param>
+        private void UpdateBallMovement(List<Ball> balls)
+        {
+            foreach (var ball in balls)
+            {
+                if (ball.Active)
+                {
+                    BounceOffWalls(ball);
+                    ball.Position += ball.Velocity;
+                }
+            }
+
+        }
+
         /// <summary>
         /// method to bounce ball of walls
         /// </summary>
-        public void BounceOffWalls()
+        public void BounceOffWalls(Ball ball)
         {
             // ball is at the top or bottom of the window, change the Y direction
-            if ((_ball.Position.Y > WINDOW_HEIGHT - CELL_HEIGHT) || (_ball.Position.Y < 0))
+            if ((ball.Position.Y > WINDOW_HEIGHT - CELL_HEIGHT) || (ball.Position.Y < 0))
             {
-                _ball.Velocity = new Vector2(_ball.Velocity.X, -_ball.Velocity.Y);
+                ball.Velocity = new Vector2(ball.Velocity.X, -ball.Velocity.Y);
             }
             // ball is at the left or right of the window, change the X direction
-            else if ((_ball.Position.X > WINDOW_WIDTH - CELL_WIDTH) || (_ball.Position.X < 0))
+            else if ((ball.Position.X > WINDOW_WIDTH - CELL_WIDTH) || (ball.Position.X < 0))
             {
-                _ball.Velocity = new Vector2(-_ball.Velocity.X, _ball.Velocity.Y);
+                ball.Velocity = new Vector2(-ball.Velocity.X, ball.Velocity.Y);
             }
         }
 
         /// <summary>
-        /// method to determine if the mouse is on the ball
+        /// method to catch and handle mouse events
         /// </summary>
-        /// <returns></returns>
-        private bool MouseClickOnBall()
+        private void HandleMouseEvents()
         {
-            bool mouseClickedOnBall = false;
-
             // get the current state of the mouse
             _mouseNewState = Mouse.GetState();
 
             // left mouse button was a click
             if (_mouseNewState.LeftButton == ButtonState.Pressed && _mouseOldState.LeftButton == ButtonState.Released)
             {
-                // mouse over ball
-                if ((_mouseNewState.X > _ball.Position.X) &&
-                    (_mouseNewState.X < (_ball.Position.X + 64)) &&
-                    (_mouseNewState.Y > _ball.Position.Y) &&
-                    (_mouseNewState.Y < (_ball.Position.Y + 64)))
+                // check all balls
+                foreach (var ball in _balls)
                 {
-                    mouseClickedOnBall = true;
-
-                    _score++;
+                    // if the mouse is over the ball and left button is clicked, destroy and spawn the ball
+                    if (MouseOnBall(ball))
+                    {
+                        _explosion.CreateInstance().Play();
+                        Spawn(ball);
+                        _score++;
+                    }
                 }
             }
 
             // store the current state of the mouse as the old state
             _mouseOldState = _mouseNewState;
+        }
+
+        /// <summary>
+        /// method to determine if the mouse is on the ball
+        /// </summary>
+        /// <returns></returns>
+        private bool MouseOnBall(Ball ball)
+        {
+            bool mouseClickedOnBall = false;
+
+            // get the current state of the mouse
+            MouseState mouseState = Mouse.GetState();
+
+            // mouse over ball
+            if ((_mouseNewState.X > ball.Position.X) &&
+                (_mouseNewState.X < (ball.Position.X + 64)) &&
+                (_mouseNewState.Y > ball.Position.Y) &&
+                (_mouseNewState.Y < (ball.Position.Y + 64)))
+            {
+                mouseClickedOnBall = true;
+            }
 
             return mouseClickedOnBall;
         }
@@ -264,31 +310,6 @@ namespace Demo_MG_ClickBall
                 // demonstrate the use of a Window's message box to display information
                 MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
                 Exit();
-            }
-        }
-
-        /// <summary>
-        /// method to catch and handle mouse events
-        /// </summary>
-        private void HandleMouseEvents()
-        {
-            // if the mouse is over the ball and left button is clicked, destroy and spawn the ball
-            if (MouseClickOnBall())
-            {
-                Spawn(_ball);
-            }
-        }
-
-        /// <summary>
-        /// method to move the ball forward and bounce off the sites of the screen
-        /// </summary>
-        /// <param name="_ball">ball object</param>
-        private void UpdateBallMovement(Ball _ball)
-        {
-            if (_ball.Active)
-            {
-                BounceOffWalls();
-                _ball.Position += _ball.Velocity;
             }
         }
 

@@ -36,7 +36,14 @@
 /build:BackgroundSandyStained.png
 
 #begin ScoreFont.spritefont
-/importer:
-/processor:
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
 /build:ScoreFont.spritefont
+
+#begin Explosion01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Explosion01.wav
 

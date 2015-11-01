@@ -1,5 +1,7 @@
 ﻿using System; // add to allow Windows message box
 using System.Runtime.InteropServices; // add to allow Windows message box
+using System.Collections;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -47,6 +49,7 @@ namespace Demo_MG_ClickBall
 
         // declare instance variables for the sprites
         private Ball _ball;
+        private List<Ball> _balls;
 
         // declare a spriteBatch object
         private SpriteBatch _spriteBatch;
@@ -272,7 +275,6 @@ namespace Demo_MG_ClickBall
             // if the mouse is over the ball and left button is clicked, destroy and spawn the ball
             if (MouseClickOnBall())
             {
-                _explosion.CreateInstance().Play();
                 Spawn(_ball);
             }
         }

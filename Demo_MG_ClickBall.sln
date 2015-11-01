@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.WallObjects", "Demo_MG_ClickBall.WallObjects\Demo_MG_ClickBall.WallObjects.csproj", "{D7307A3E-A352-4C65-87D2-EC390855E52F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo_MG_ClickBall.D04", "Demo_MG_ClickBall.D04\Demo_MG_ClickBall.D04.csproj", "{14589264-831B-4D0A-8409-5D27E2D1F4C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,6 +118,16 @@ Global
 		{D7307A3E-A352-4C65-87D2-EC390855E52F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{D7307A3E-A352-4C65-87D2-EC390855E52F}.Release|x86.ActiveCfg = Release|x86
 		{D7307A3E-A352-4C65-87D2-EC390855E52F}.Release|x86.Build.0 = Release|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Debug|x86.ActiveCfg = Debug|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Debug|x86.Build.0 = Debug|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Release|Any CPU.ActiveCfg = Release|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Release|Mixed Platforms.Build.0 = Release|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Release|x86.ActiveCfg = Release|x86
+		{14589264-831B-4D0A-8409-5D27E2D1F4C3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

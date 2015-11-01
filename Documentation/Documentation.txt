@@ -10,11 +10,19 @@ Project: D01
 Description: Adds a Ball class to the project and uses a ball object in the game
 
 Project: D02
-Description: Add constants to handle magic numbers
+Description: Adds constants to handle magic numbers
+             Refactor the code blocks in the Update method
              Adds ball movement and bounce the ball off of the sides of the window
              Adds the Windows MessageBox capability
              Adds mouse click event to destroy the ball and spawn in a new location
 
 Project: D03
-Description: Add text 
-             Adds ball movement and bounce the ball off of the sides of the window
+Description: Adds a SpriteFont
+             Adds and displays a score recording the number of balls destroyed
+			 Adds a message box the indicates a win
+			 Adds and displays a timer that counts down by seconds
+			 Adds a messing box to indicate the player is out of time
+
+Project: D04
+Description: Adds more balls using a list of balls
+             Adds a score recording the number of balls destroyed

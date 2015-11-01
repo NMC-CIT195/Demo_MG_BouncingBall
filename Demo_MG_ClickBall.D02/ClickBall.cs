@@ -118,27 +118,9 @@ namespace Demo_MG_ClickBall
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
-            // detect an Escape key press to end the game
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                // demonstrate the use of a Window's message box to display information
-                MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
-                Exit();
-            }
-
-            // if the mouse is over the ball and left button is clicked, make the ball invisible
-            if (MouseClickOnBall())
-            {
-                //_ball.Active = false;
-                Spawn(_ball);
-            }
-
-            if (_ball.Active)
-            {
-                BounceOffWalls();
-                _ball.Position += _ball.Velocity;
-            }
+            HandleKeyboardEvents();
+            HandleMouseEvents();
+            UpdateBallMovement(_ball);
 
             base.Update(gameTime);
         }
@@ -203,15 +185,18 @@ namespace Demo_MG_ClickBall
                 {
                     mouseClickedOnBall = true;
                 }
-             }
-            
+            }
+
             // store the current state of the mouse as the old state
             _mouseOldState = _mouseNewState;
 
             return mouseClickedOnBall;
         }
-        #endregion
 
+        /// <summary>
+        /// spawn the ball at a random location on the screen
+        /// </summary>
+        /// <param name="ball">ball object</param>
         private void Spawn(Ball ball)
         {
             // find a valid location to spawn the ball
@@ -222,5 +207,46 @@ namespace Demo_MG_ClickBall
             ball.Position = new Vector2(ballXPosition, ballYPosition);
             ball.Velocity = -ball.Velocity;
         }
+
+        /// <summary>
+        /// method to catch and handle keyboard events
+        /// </summary>
+        private void HandleKeyboardEvents()
+        {
+            // detect an Escape key press to end the game
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                // demonstrate the use of a Window's message box to display information
+                MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
+                Exit();
+            }
+        }
+
+        /// <summary>
+        /// method to catch and handle mouse events
+        /// </summary>
+        private void HandleMouseEvents()
+        {
+            // if the mouse is over the ball and left button is clicked, destroy and spawn the ball
+            if (MouseClickOnBall())
+            {
+                Spawn(_ball);
+            }
+        }
+
+        /// <summary>
+        /// method to move the ball forward and bounce off the sites of the screen
+        /// </summary>
+        /// <param name="_ball">ball object</param>
+        private void UpdateBallMovement(Ball _ball)
+        {
+            if (_ball.Active)
+            {
+                BounceOffWalls();
+                _ball.Position += _ball.Velocity;
+            }
+        }
+
+        #endregion
     }
 }

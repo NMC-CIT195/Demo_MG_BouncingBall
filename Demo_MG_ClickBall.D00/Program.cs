@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Demo_MG_ClickBall.D00
+namespace Demo_MG_ClickBall
 {
 #if WINDOWS || LINUX
     /// <summary>

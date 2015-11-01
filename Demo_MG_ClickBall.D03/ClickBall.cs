@@ -27,6 +27,16 @@ namespace Demo_MG_ClickBall
         private const int WINDOW_WIDTH = MAP_CELL_COLUMN_COUNT * CELL_WIDTH;
         private const int WINDOW_HEIGHT = MAP_CELL_ROW_COUNT * CELL_HEIGHT;
 
+        // set the location for the score
+        private const int SCORE_X_POSTION = 500;
+        private const int SCORE_Y_POSTION = 20;
+
+        // set the winning score
+        private const int WINNING_SCORE = 5;
+
+        // set the time limit seconds
+        private const double TIME_LIMIT = 5;
+
         // create a random number set
         private Random _randomNumbers = new Random();
 
@@ -43,6 +53,15 @@ namespace Demo_MG_ClickBall
         // declare a MouseState object to get mouse information
         private MouseState _mouseOldState;
         private MouseState _mouseNewState;
+
+        // declare a SpriteFont for the on-screen score
+        private SpriteFont _scoreFont;
+
+        // declare a variable to store the score
+        private int _score;
+
+        // declare a variable for the timer
+        private double _timer = TIME_LIMIT;
 
         private GraphicsDeviceManager _graphics;
 
@@ -100,6 +119,8 @@ namespace Demo_MG_ClickBall
             // ball sprite loaded when instantiated
             _background = Content.Load<Texture2D>("BackgroundSandyStained");
 
+            // load the font for the score
+            _scoreFont = Content.Load<SpriteFont>("ScoreFont");
         }
 
         /// <summary>
@@ -112,35 +133,32 @@ namespace Demo_MG_ClickBall
         }
 
         /// <summary>
-        /// method allowing the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
+        /// main game loop
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
-            // detect an Escape key press to end the game
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            // player still playing
+            if ((_score != WINNING_SCORE) && (_timer > 0))
             {
-                // demonstrate the use of a Window's message box to display information
-                MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
-                Exit();
+                HandleKeyboardEvents();
+                HandleMouseEvents();
+                UpdateBallMovement(_ball);
+                UpdateTimer(gameTime);
+
+                base.Update(gameTime);
+            }
+            // player wins
+            else if (_score == WINNING_SCORE)
+            {
+                DisplayWinScreen();
+            }
+            // player out of time
+            else if (_timer <= 0)
+            {
+                DisplayOutOfTimeMessage();
             }
 
-            // if the mouse is over the ball and left button is clicked, make the ball invisible
-            if (MouseClickOnBall())
-            {
-                //_ball.Active = false;
-                Spawn(_ball);
-            }
-
-            if (_ball.Active)
-            {
-                BounceOffWalls();
-                _ball.Position += _ball.Velocity;
-            }
-
-            base.Update(gameTime);
         }
 
         /// <summary>
@@ -156,6 +174,8 @@ namespace Demo_MG_ClickBall
             // draw the background and the ball
             _spriteBatch.Draw(_background, _backgroundPosition, Color.White);
             _ball.Draw(_spriteBatch);
+
+            DrawScoreTimer();
 
             _spriteBatch.End();
 
@@ -202,16 +222,21 @@ namespace Demo_MG_ClickBall
                     (_mouseNewState.Y < (_ball.Position.Y + 64)))
                 {
                     mouseClickedOnBall = true;
+
+                    _score++;
                 }
-             }
-            
+            }
+
             // store the current state of the mouse as the old state
             _mouseOldState = _mouseNewState;
 
             return mouseClickedOnBall;
         }
-        #endregion
 
+        /// <summary>
+        /// spawn the ball at a random location on the screen
+        /// </summary>
+        /// <param name="ball">ball object</param>
         private void Spawn(Ball ball)
         {
             // find a valid location to spawn the ball
@@ -222,5 +247,84 @@ namespace Demo_MG_ClickBall
             ball.Position = new Vector2(ballXPosition, ballYPosition);
             ball.Velocity = -ball.Velocity;
         }
+
+        /// <summary>
+        /// method to catch and handle keyboard events
+        /// </summary>
+        private void HandleKeyboardEvents()
+        {
+            // detect an Escape key press to end the game
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                // demonstrate the use of a Window's message box to display information
+                MessageBox(new IntPtr(0), "Escape key pressed Click OK to exit.", "Debug Message", 0);
+                Exit();
+            }
+        }
+
+        /// <summary>
+        /// method to catch and handle mouse events
+        /// </summary>
+        private void HandleMouseEvents()
+        {
+            // if the mouse is over the ball and left button is clicked, destroy and spawn the ball
+            if (MouseClickOnBall())
+            {
+                Spawn(_ball);
+            }
+        }
+
+        /// <summary>
+        /// method to move the ball forward and bounce off the sites of the screen
+        /// </summary>
+        /// <param name="_ball">ball object</param>
+        private void UpdateBallMovement(Ball _ball)
+        {
+            if (_ball.Active)
+            {
+                BounceOffWalls();
+                _ball.Position += _ball.Velocity;
+            }
+        }
+
+        /// <summary>
+        /// method to draw the current score and the timer on the game screen
+        /// </summary>
+        private void DrawScoreTimer()
+        {
+            _spriteBatch.DrawString(_scoreFont, "Score: " + _score, new Vector2(SCORE_X_POSTION, SCORE_Y_POSTION), Color.Black);
+            _spriteBatch.DrawString(_scoreFont, "Time: " + _timer.ToString("000"), new Vector2(SCORE_X_POSTION, SCORE_Y_POSTION + 25), Color.Black);
+        }
+
+        /// <summary>
+        /// method to display the Win screen
+        /// </summary>
+        private void DisplayWinScreen()
+        {
+            MessageBox(new IntPtr(0), "You have won the game!\n Press any key to exit.", "Debug Message", 0);
+            Exit();
+        }
+
+        /// <summary>
+        /// method to up the game timer in seconds
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void UpdateTimer(GameTime gameTime)
+        {
+            _timer -= gameTime.ElapsedGameTime.TotalSeconds;
+        }
+
+        /// <summary>
+        /// method to display an out of time message
+        /// </summary>
+        private void DisplayOutOfTimeMessage()
+        {
+            MessageBox(new IntPtr(0), "Sorry, you ran out of time.\n Press any key to exit.", "Debug Message", 0);
+            Exit();
+        }
+
+        #endregion
+
+
     }
 }

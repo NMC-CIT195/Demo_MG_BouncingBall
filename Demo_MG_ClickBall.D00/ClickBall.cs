@@ -12,6 +12,10 @@ namespace Demo_MG_ClickBall
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
 
+        // declare instance variables for the background
+        private Texture2D _background;
+        private Rectangle _backgroundPosition;
+
         // declare instance variables for the ball sprite and vector position
         private Texture2D _ball;
         private Vector2 _ballPosition;
@@ -23,7 +27,7 @@ namespace Demo_MG_ClickBall
 
             // set the window size 
             _graphics.PreferredBackBufferWidth = 640;
-            _graphics.PreferredBackBufferHeight = 640;
+            _graphics.PreferredBackBufferHeight = 480;
 
             Content.RootDirectory = "Content";
         }
@@ -40,6 +44,9 @@ namespace Demo_MG_ClickBall
             _ballPosition.X = 100;
             _ballPosition.Y = 200;
 
+            // set the background's initial position
+            _backgroundPosition = new Rectangle(0, 0, 640, 480);
+
             base.Initialize();
         }
 
@@ -51,6 +58,8 @@ namespace Demo_MG_ClickBall
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            _background = Content.Load<Texture2D>("BackgroundSandyStained");
 
             _ball = Content.Load<Texture2D>("ball");
         }
@@ -88,6 +97,8 @@ namespace Demo_MG_ClickBall
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
+
+            _spriteBatch.Draw(_background, _backgroundPosition, Color.White);
 
             _spriteBatch.Draw(_ball, _ballPosition, Color.White);
 

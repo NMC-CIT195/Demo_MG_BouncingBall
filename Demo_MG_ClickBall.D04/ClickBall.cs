@@ -48,7 +48,6 @@ namespace Demo_MG_ClickBall
         private Rectangle _backgroundPosition;
 
         // declare instance variables for the sprites
-        private Ball _ball;
         private List<Ball> _balls;
 
         // declare a spriteBatch object

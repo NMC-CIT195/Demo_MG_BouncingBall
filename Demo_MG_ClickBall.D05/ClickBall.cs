@@ -254,7 +254,15 @@ namespace Demo_MG_ClickBall
                     {
                         _explosion.CreateInstance().Play();
                         Spawn(ball);
-                        _score++;
+                        if (ball.SpriteSize == 64)
+                        {
+                            _score++;
+                        }
+                        else if (ball.SpriteSize == 32)
+                        {
+                            _score+=2;
+                        }
+
                     }
                 }
             }

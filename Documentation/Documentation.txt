@@ -27,3 +27,7 @@ Description: Adds a SpriteFont
 Project: D04
 Description: Adds more balls using a list of balls
              Refactor helper methods
+
+Project: D04
+Description: Adds a method for ball sprite size (assuming a square)
+             Adds a smaller, faster ball worth 2 points

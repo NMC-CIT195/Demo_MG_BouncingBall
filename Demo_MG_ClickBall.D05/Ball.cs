@@ -18,7 +18,7 @@ namespace Demo_MG_ClickBall
         private ContentManager _contentManager;
         private string _spriteName;
         private Texture2D _sprite;
-        private int _spriteSize;
+        private int _radius;
         private Vector2 _position;
         private Vector2 _velocity;
         private bool _active;
@@ -45,10 +45,10 @@ namespace Demo_MG_ClickBall
             set { _sprite = value; }
         }
 
-        public int SpriteSize
+        public int Radius
         {
-            get { return _spriteSize; }
-            set { _spriteSize = value; }
+            get { return _radius; }
+            set { _radius = value; }
         }
 
         public Vector2 Position
@@ -89,7 +89,7 @@ namespace Demo_MG_ClickBall
         {
             _contentManager = contentManager;
             _spriteName = spriteName;
-            _spriteSize = spriteSize;
+            _radius = spriteSize;
             _position = positiion;
             _velocity = velocity;
 

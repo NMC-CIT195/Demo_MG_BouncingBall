@@ -98,11 +98,11 @@ namespace Demo_MG_ClickBall
 
             // create a ball object
             _balls = new List<Ball>();
-            Ball ball01 = new Ball(Content, "Ball", 64, new Vector2(300, 200), new Vector2(2, 2));
+            Ball ball01 = new Ball(Content, "Ball", 32, new Vector2(300, 200), new Vector2(2, 2));
             _balls.Add(ball01);
-            Ball ball02 = new Ball(Content, "Ball", 64, new Vector2(100, 400), new Vector2(2, 2));
+            Ball ball02 = new Ball(Content, "Ball", 32, new Vector2(100, 400), new Vector2(2, 2));
             _balls.Add(ball02);
-            Ball ball03 = new Ball(Content, "small_ball", 32, new Vector2(100, 400), new Vector2(4, -4));
+            Ball ball03 = new Ball(Content, "small_ball", 16, new Vector2(100, 400), new Vector2(4, -4));
             _balls.Add(ball03);
 
             // make the balls active
@@ -224,12 +224,12 @@ namespace Demo_MG_ClickBall
         public void BounceOffWalls(Ball ball)
         {
             // ball is at the top or bottom of the window, change the Y direction
-            if ((ball.Position.Y > WINDOW_HEIGHT - ball.SpriteSize) || (ball.Position.Y < 0))
+            if ((ball.Position.Y > WINDOW_HEIGHT - (ball.Radius * 2)) || (ball.Position.Y < 0))
             {
                 ball.Velocity = new Vector2(ball.Velocity.X, -ball.Velocity.Y);
             }
             // ball is at the left or right of the window, change the X direction
-            else if ((ball.Position.X > WINDOW_WIDTH - ball.SpriteSize) || (ball.Position.X < 0))
+            else if ((ball.Position.X > WINDOW_WIDTH - (ball.Radius * 2)) || (ball.Position.X < 0))
             {
                 ball.Velocity = new Vector2(-ball.Velocity.X, ball.Velocity.Y);
             }
@@ -254,11 +254,11 @@ namespace Demo_MG_ClickBall
                     {
                         _explosion.CreateInstance().Play();
                         Spawn(ball);
-                        if (ball.SpriteSize == 64)
+                        if (ball.Radius == 64)
                         {
                             _score++;
                         }
-                        else if (ball.SpriteSize == 32)
+                        else if (ball.Radius == 32)
                         {
                             _score+=2;
                         }

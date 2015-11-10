@@ -21,13 +21,15 @@ Description: Adds a SpriteFont
              Adds and displays a score recording the number of balls destroyed
 			 Adds a message box the indicates a win
 			 Adds and displays a timer that counts down by seconds
-			 Adds a messing box to indicate the player is out of time
+			 Adds a message box to indicate the player is out of time
 			 Adds a SoundEffect explosion and plays when the ball is destroyed
 
 Project: D04
 Description: Adds more balls using a list of balls
+			 Adds collision detection between balls
              Refactor helper methods
 
 Project: D04
-Description: Adds a method for ball sprite size (assuming a square)
+Description: Adds a radius field to ball object
              Adds a smaller, faster ball worth 2 points
+			 Adds collision detection between balls using a circle as the bounding box

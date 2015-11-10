@@ -18,8 +18,10 @@ namespace Demo_MG_ClickBall
         private ContentManager _contentManager;
         private string _spriteName;
         private Texture2D _sprite;
+        private int _radius;    
         private Vector2 _position;
-        private Vector2 _velocity;
+        private Vector2 _center;
+        private Vector2 _velocity;   
         private bool _active;
 
         #endregion
@@ -44,12 +46,23 @@ namespace Demo_MG_ClickBall
             set { _sprite = value; }
         }
 
+        public int Radius
+        {
+            get { return _radius; }
+            set { _radius = value; }
+        }
+
         public Vector2 Position
         {
             get { return _position; }
             set { _position = value; }
         }
 
+        public Vector2 Center
+        {
+            get { return _center; }
+        }
+        
         public Vector2 Velocity
         {
             get { return _velocity; }
@@ -71,17 +84,20 @@ namespace Demo_MG_ClickBall
         /// </summary>
         /// <param name="contentManager">game content manager object</param>
         /// <param name="spriteName">file name of sprite</param>
-        /// <param name="positiion">vector position of ball</param>
+        /// <param name="position">vector position of ball</param>
         public Ball(
             ContentManager contentManager,
             string spriteName,
-            Vector2 positiion,
+            int radius,
+            Vector2 position,
             Vector2 velocity
             )
         {
             _contentManager = contentManager;
             _spriteName = spriteName;
-            _position = positiion;
+            _radius = radius;
+            _position = position;
+            _center = position + new Vector2(radius, radius);
             _velocity = velocity;
 
             // load the ball image into the Texture2D for the ball sprite

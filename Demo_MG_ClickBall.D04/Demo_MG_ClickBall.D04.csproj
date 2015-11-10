@@ -55,6 +55,7 @@
     <Content Include="Content\BackgroundSandyStained.png" />
     <Content Include="Content\Ball.png" />
     <Content Include="Content\Explosion01.wav" />
+    <Content Include="Content\small_ball.png" />
     <Content Include="Content\Wall.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>

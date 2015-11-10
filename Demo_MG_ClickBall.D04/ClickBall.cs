@@ -38,7 +38,7 @@ namespace Demo_MG_ClickBall
         private const int WINNING_SCORE = 5;
 
         // set the time limit seconds
-        private const double TIME_LIMIT = 5;
+        private const double TIME_LIMIT = 50;
 
         // create a random number set
         private Random _randomNumbers = new Random();
@@ -96,16 +96,21 @@ namespace Demo_MG_ClickBall
             // set the background's initial position
             _backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            // create a ball object
+            // create a list of Ball objects
             _balls = new List<Ball>();
-            Ball ball01 = new Ball(Content, "Ball", new Vector2(300, 200), new Vector2(2, 2));
+
+            // add balls to the list
+            Ball ball01 = new Ball(Content, "Ball", 32, new Vector2(300, 200), new Vector2(4, 4));
             _balls.Add(ball01);
-            Ball ball02 = new Ball(Content, "Ball", new Vector2(100, 400), new Vector2(2, 2));
+            Ball ball02 = new Ball(Content, "Ball", 32, new Vector2(100, 400), new Vector2(-2, -2));
             _balls.Add(ball02);
+            Ball ball03 = new Ball(Content, "small_ball", 16, new Vector2(400, 400), new Vector2(4, -4));
+            _balls.Add(ball03);
 
             // make the balls active
             ball01.Active = true;
             ball02.Active = true;
+            ball03.Active = false;
 
             // make mouse visible on game
             this.IsMouseVisible = true;
@@ -209,6 +214,7 @@ namespace Demo_MG_ClickBall
                 if (ball.Active)
                 {
                     BounceOffWalls(ball);
+                    BounceOffBalls(balls, ball);
                     ball.Position += ball.Velocity;
                 }
             }
@@ -230,6 +236,33 @@ namespace Demo_MG_ClickBall
             {
                 ball.Velocity = new Vector2(-ball.Velocity.X, ball.Velocity.Y);
             }
+        }
+
+        public void BounceOffBalls(List<Ball> balls, Ball checkBall)
+        {
+            foreach (Ball ball in balls)
+            {
+                if (ball != checkBall)
+                {
+                    if (DistanceBetweenBalls(checkBall, ball) < checkBall.Radius + ball.Radius)
+                    {
+                        MessageBox(new IntPtr(0), "Contact!", DistanceBetweenBalls(checkBall, ball).ToString(), 0);
+                        checkBall.Velocity = -checkBall.Velocity;
+                        //checkBall.Position += checkBall.Velocity * 2;
+                    }
+                }
+
+            }
+        }
+
+        public double DistanceBetweenBalls(Ball ball1, Ball ball2)
+        {
+            double distance;
+
+
+            distance = Math.Sqrt((Math.Pow((ball2.Center.X - ball1.Center.X), 2)) + (Math.Pow((ball2.Center.Y - ball1.Center.Y), 2)));
+
+            return distance;
         }
 
         /// <summary>

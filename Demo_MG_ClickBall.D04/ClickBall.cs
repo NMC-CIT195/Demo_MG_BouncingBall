@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices; // add to allow Windows message box
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -110,7 +111,7 @@ namespace Demo_MG_ClickBall
             // make the balls active
             ball01.Active = true;
             ball02.Active = true;
-            ball03.Active = false;
+            ball03.Active = true;
 
             // make mouse visible on game
             this.IsMouseVisible = true;
@@ -227,12 +228,12 @@ namespace Demo_MG_ClickBall
         public void BounceOffWalls(Ball ball)
         {
             // ball is at the top or bottom of the window, change the Y direction
-            if ((ball.Position.Y > WINDOW_HEIGHT - CELL_HEIGHT) || (ball.Position.Y < 0))
+            if ((ball.Position.Y > WINDOW_HEIGHT - ball.Radius * 2) || (ball.Position.Y < 0))
             {
                 ball.Velocity = new Vector2(ball.Velocity.X, -ball.Velocity.Y);
             }
             // ball is at the left or right of the window, change the X direction
-            else if ((ball.Position.X > WINDOW_WIDTH - CELL_WIDTH) || (ball.Position.X < 0))
+            else if ((ball.Position.X > WINDOW_WIDTH - ball.Radius * 2) || (ball.Position.X < 0))
             {
                 ball.Velocity = new Vector2(-ball.Velocity.X, ball.Velocity.Y);
             }
@@ -246,9 +247,7 @@ namespace Demo_MG_ClickBall
                 {
                     if (DistanceBetweenBalls(checkBall, ball) < checkBall.Radius + ball.Radius)
                     {
-                        MessageBox(new IntPtr(0), "Contact!", DistanceBetweenBalls(checkBall, ball).ToString(), 0);
                         checkBall.Velocity = -checkBall.Velocity;
-                        //checkBall.Position += checkBall.Velocity * 2;
                     }
                 }
 
@@ -259,8 +258,7 @@ namespace Demo_MG_ClickBall
         {
             double distance;
 
-
-            distance = Math.Sqrt((Math.Pow((ball2.Center.X - ball1.Center.X), 2)) + (Math.Pow((ball2.Center.Y - ball1.Center.Y), 2)));
+            distance = Vector2.Distance(ball1.Center, ball2.Center);
 
             return distance;
         }

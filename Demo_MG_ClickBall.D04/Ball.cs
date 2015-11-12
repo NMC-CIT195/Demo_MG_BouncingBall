@@ -55,12 +55,18 @@ namespace Demo_MG_ClickBall
         public Vector2 Position
         {
             get { return _position; }
-            set { _position = value; }
+            set 
+            { 
+                _position = value;
+                _center.X = _position.X + _radius;
+                _center.Y = _position.Y + _radius;
+            }
         }
 
         public Vector2 Center
         {
             get { return _center; }
+            set { _center = value; }
         }
         
         public Vector2 Velocity

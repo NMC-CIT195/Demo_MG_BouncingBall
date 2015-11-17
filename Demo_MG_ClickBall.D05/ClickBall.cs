@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices; // add to allow Windows message box
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -32,13 +33,13 @@ namespace Demo_MG_ClickBall
 
         // set the location for the score
         private const int SCORE_X_POSTION = 500;
-        private const int SCORE_Y_POSTION = 20;
+        private const int SCORE_Y_POSTION = 5;
 
         // set the winning score
         private const int WINNING_SCORE = 5;
 
         // set the time limit seconds
-        private const double TIME_LIMIT = 5;
+        private const double TIME_LIMIT = 50;
 
         // create a random number set
         private Random _randomNumbers = new Random();
@@ -49,7 +50,7 @@ namespace Demo_MG_ClickBall
 
         // declare instance variables for the sprites
         private List<Ball> _balls;
-
+        
         // declare a spriteBatch object
         private SpriteBatch _spriteBatch;
 
@@ -96,13 +97,15 @@ namespace Demo_MG_ClickBall
             // set the background's initial position
             _backgroundPosition = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            // create a ball object
+            // create a list of Ball objects
             _balls = new List<Ball>();
-            Ball ball01 = new Ball(Content, "Ball", 32, new Vector2(300, 200), new Vector2(2, 2));
+
+            // add balls to the list
+            Ball ball01 = new Ball(Content, "Ball", 32, new Vector2(200, 200), new Vector2(4, 4));
             _balls.Add(ball01);
-            Ball ball02 = new Ball(Content, "Ball", 32, new Vector2(100, 400), new Vector2(2, 2));
+            Ball ball02 = new Ball(Content, "Ball", 32, new Vector2(100, 300), new Vector2(-2, -2));
             _balls.Add(ball02);
-            Ball ball03 = new Ball(Content, "small_ball", 16, new Vector2(100, 400), new Vector2(4, -4));
+            Ball ball03 = new Ball(Content, "small_ball", 16, new Vector2(300, 300), new Vector2(4, -4));
             _balls.Add(ball03);
 
             // make the balls active
@@ -190,6 +193,8 @@ namespace Demo_MG_ClickBall
                 ball.Draw(_spriteBatch);
             }
 
+            // call the BuildMap method to add all of the walls
+            BuildMap();
 
             DrawScoreTimer();
 
@@ -212,27 +217,64 @@ namespace Demo_MG_ClickBall
                 if (ball.Active)
                 {
                     BounceOffWalls(ball);
+                    BounceOffBalls(balls, ball);
                     ball.Position += ball.Velocity;
                 }
             }
 
         }
 
+        // TODO adjust BounceOffWalls method to accommodate the walls
         /// <summary>
         /// method to bounce ball of walls
         /// </summary>
         public void BounceOffWalls(Ball ball)
         {
             // ball is at the top or bottom of the window, change the Y direction
-            if ((ball.Position.Y > WINDOW_HEIGHT - (ball.Radius * 2)) || (ball.Position.Y < 0))
+            if ((ball.Position.Y > (WINDOW_HEIGHT - CELL_HEIGHT) - ball.Radius * 2) || (ball.Position.Y < CELL_HEIGHT))
             {
                 ball.Velocity = new Vector2(ball.Velocity.X, -ball.Velocity.Y);
             }
             // ball is at the left or right of the window, change the X direction
-            else if ((ball.Position.X > WINDOW_WIDTH - (ball.Radius * 2)) || (ball.Position.X < 0))
+            else if ((ball.Position.X > (WINDOW_WIDTH - CELL_WIDTH) - ball.Radius * 2) || (ball.Position.X < CELL_HEIGHT))
             {
                 ball.Velocity = new Vector2(-ball.Velocity.X, ball.Velocity.Y);
             }
+        }
+
+        /// <summary>
+        /// method to change the velocity of the balls when they collide
+        /// </summary>
+        /// <param name="balls">list of all balls</param>
+        /// <param name="checkBall">ball being check</param>
+        public void BounceOffBalls(List<Ball> balls, Ball checkBall)
+        {
+            foreach (Ball ball in balls)
+            {
+                if (ball != checkBall)
+                {
+                    if (DistanceBetweenBalls(checkBall, ball) < checkBall.Radius + ball.Radius)
+                    {
+                        checkBall.Velocity = -checkBall.Velocity;
+                    }
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// method to calculate the distance between the centers of two balls
+        /// </summary>
+        /// <param name="ball1">first ball</param>
+        /// <param name="ball2">second ball</param>
+        /// <returns></returns>
+        public double DistanceBetweenBalls(Ball ball1, Ball ball2)
+        {
+            double distance;
+
+            distance = Vector2.Distance(ball1.Center, ball2.Center);
+
+            return distance;
         }
 
         /// <summary>
@@ -254,15 +296,7 @@ namespace Demo_MG_ClickBall
                     {
                         _explosion.CreateInstance().Play();
                         Spawn(ball);
-                        if (ball.Radius == 64)
-                        {
-                            _score++;
-                        }
-                        else if (ball.Radius == 32)
-                        {
-                            _score+=2;
-                        }
-
+                        _score++;
                     }
                 }
             }
@@ -294,6 +328,7 @@ namespace Demo_MG_ClickBall
             return mouseClickedOnBall;
         }
 
+        // TODO adjust Spawn method to accommodate the walls
         /// <summary>
         /// spawn the ball at a random location on the screen
         /// </summary>
@@ -301,8 +336,8 @@ namespace Demo_MG_ClickBall
         private void Spawn(Ball ball)
         {
             // find a valid location to spawn the ball
-            int ballXPosition = _randomNumbers.Next(WINDOW_WIDTH - CELL_WIDTH);
-            int ballYPosition = _randomNumbers.Next(WINDOW_HEIGHT - CELL_HEIGHT);
+            int ballXPosition = _randomNumbers.Next(WINDOW_WIDTH - (2 * CELL_WIDTH));
+            int ballYPosition = _randomNumbers.Next(WINDOW_HEIGHT - (2 * CELL_HEIGHT));
 
             // set ball's new position and reverse direction
             ball.Position = new Vector2(ballXPosition, ballYPosition);
@@ -361,6 +396,57 @@ namespace Demo_MG_ClickBall
 
         #endregion
 
+        // TODO add a method to build the map
+        /// <summary>
+        /// method to add the starting walls to the map
+        /// </summary>
+        private void BuildMap()
+        {
+            // draw top and bottom walls
+            for (int column = 0; column < MAP_CELL_COLUMN_COUNT; column++)
+            {
+                int wallCellXPos = column * CELL_WIDTH;
+                int topWallYPos = 0;
+                int bottomWallYPos = (MAP_CELL_ROW_COUNT - 1) * CELL_HEIGHT;
 
+                Vector2 topWallCellPosition = new Vector2(wallCellXPos, topWallYPos);
+                Vector2 bottonWallCellPosition = new Vector2(wallCellXPos, bottomWallYPos);
+
+                Wall topWallSection = new Wall(Content, "Wall", topWallCellPosition);
+                topWallSection.Active = true;
+                topWallSection.Draw(_spriteBatch);
+
+                Wall bottomWallSection = new Wall(Content, "Wall", bottonWallCellPosition);
+                bottomWallSection.Active = true;
+                bottomWallSection.Draw(_spriteBatch);
+            }
+
+            // draw side walls
+            for (int row = 0; row < MAP_CELL_ROW_COUNT - 2; row++)
+            {
+                int wallYPos = (row + 1) * CELL_HEIGHT;
+                int leftWallXPos = 0;
+                int rightWallXPos = (MAP_CELL_COLUMN_COUNT - 1) * CELL_HEIGHT;
+
+                Vector2 leftWallCellPosition = new Vector2(leftWallXPos, wallYPos);
+                Vector2 rightWallCellPosition = new Vector2(rightWallXPos, wallYPos);
+
+                Wall leftWallSection = new Wall(Content, "Wall", leftWallCellPosition);
+                leftWallSection.Active = true;
+                leftWallSection.Draw(_spriteBatch);
+
+                Wall rightWallSection = new Wall(Content, "Wall", rightWallCellPosition);
+                rightWallSection.Active = true;
+                rightWallSection.Draw(_spriteBatch);
+            }
+
+            // TODO draw the scoreboard
+            // draw the scoreboard
+            Content.Load<Texture2D>("ScoreBoard");
+            _spriteBatch.Draw(
+                Content.Load<Texture2D>("ScoreBoard"),
+                new Vector2(WINDOW_WIDTH - 192, 0),
+                Color.White);
+        }
     }
 }

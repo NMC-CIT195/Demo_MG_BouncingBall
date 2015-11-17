@@ -38,7 +38,6 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Wall.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="ClickBall.cs" />
     <Compile Include="Program.cs" />

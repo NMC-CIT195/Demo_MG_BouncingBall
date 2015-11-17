@@ -28,3 +28,10 @@ Description: Adds more balls using a list of balls
 			 Adds a radius field to ball object
              Adds a smaller, faster ball worth 2 points
 			 Adds collision detection between balls using a circle as the bounding box
+
+Project: D05
+Description: Add a wall class
+			 Adds walls using the BuildMap method
+			 Adjust the BounceOffWalls method to accommodate the walls
+			 Adjust the Spawn method to accommodate the walls
+			 Draw the scoreboard

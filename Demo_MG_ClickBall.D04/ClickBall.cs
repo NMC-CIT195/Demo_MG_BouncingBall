@@ -239,6 +239,11 @@ namespace Demo_MG_ClickBall
             }
         }
 
+        /// <summary>
+        /// method to change the velocity of the balls when they collide
+        /// </summary>
+        /// <param name="balls">list of all balls</param>
+        /// <param name="checkBall">ball being check</param>
         public void BounceOffBalls(List<Ball> balls, Ball checkBall)
         {
             foreach (Ball ball in balls)
@@ -254,6 +259,12 @@ namespace Demo_MG_ClickBall
             }
         }
 
+        /// <summary>
+        /// method to calculate the distance between the centers of two balls
+        /// </summary>
+        /// <param name="ball1">first ball</param>
+        /// <param name="ball2">second ball</param>
+        /// <returns></returns>
         public double DistanceBetweenBalls(Ball ball1, Ball ball2)
         {
             double distance;

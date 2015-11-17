@@ -16,9 +16,9 @@ namespace Demo_MG_ClickBall
         #region FIELDS
 
         private ContentManager _contentManager;
-        private string _wallSpriteName;
-        private Texture2D _wallSprite;
-        private Vector2 _wallPosition;
+        private string _spriteName;
+        private Texture2D _sprite;
+        private Vector2 _position;
         private bool _active;
 
         #endregion
@@ -31,16 +31,16 @@ namespace Demo_MG_ClickBall
             set { _contentManager = value; }
         }
 
-        public string WallSpriteName
+        public string SpriteName
         {
-            get { return _wallSpriteName; }
-            set { _wallSpriteName = value; }
+            get { return _spriteName; }
+            set { _spriteName = value; }
         }
 
-        public Vector2 WallPosition
+        public Vector2 Position
         {
-            get { return _wallPosition; }
-            set { _wallPosition = value; }
+            get { return _position; }
+            set { _position = value; }
         }
 
         public bool Active
@@ -57,20 +57,20 @@ namespace Demo_MG_ClickBall
         /// instantiate a new Wall
         /// </summary>
         /// <param name="contentManager">game content manager object</param>
-        /// <param name="WallSpriteName">file name of sprite</param>
-        /// <param name="WallPositiion">vector position of Wall</param>
+        /// <param name="spriteName">file name of sprite</param>
+        /// <param name="positiion">vector position of Wall</param>
         public Wall(
             ContentManager contentManager,
-            string WallSpriteName,
-            Vector2 WallPositiion
+            string spriteName,
+            Vector2 positiion
             )
         {
             _contentManager = contentManager;
-            _wallSpriteName = WallSpriteName;
-            _wallPosition = WallPositiion;
+            _spriteName = spriteName;
+            _position = positiion;
 
             // load the Wall image into the Texture2D for the Wall sprite
-            _wallSprite = _contentManager.Load<Texture2D>(_wallSpriteName);
+            _sprite = _contentManager.Load<Texture2D>(_spriteName);
         }
 
         #endregion
@@ -85,7 +85,7 @@ namespace Demo_MG_ClickBall
             // only draw the Wall if it is active
             if (_active)
             {
-                spriteBatch.Draw(_wallSprite, _wallPosition, Color.White);
+                spriteBatch.Draw(_sprite, _position, Color.White);
             }
         }
 

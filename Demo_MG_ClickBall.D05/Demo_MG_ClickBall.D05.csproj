@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0CAC27D0-AFF0-4003-A099-F2EA983AB313}</ProjectGuid>
+    <ProjectGuid>{B9395437-5FC0-41C8-B57E-22C2CFCB52E5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Demo_MG_ClickBall.D05</RootNamespace>
@@ -55,6 +55,7 @@
     <Content Include="Content\BackgroundSandyStained.png" />
     <Content Include="Content\Ball.png" />
     <Content Include="Content\Explosion01.wav" />
+    <Content Include="Content\ScoreBoard.png" />
     <Content Include="Content\small_ball.png" />
     <Content Include="Content\Wall.png" />
     <Content Include="Icon.ico" />

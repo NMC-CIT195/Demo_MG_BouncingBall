@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Demo_MG_ClickBall
 {
-    // TODO add Ball class
     public class Wall
     {
 

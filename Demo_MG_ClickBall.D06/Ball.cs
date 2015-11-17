@@ -10,8 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Demo_MG_ClickBall
 {
-    // TODO add Ball class
-    public class Wall
+    public class Ball
     {
 
         #region FIELDS
@@ -19,8 +18,10 @@ namespace Demo_MG_ClickBall
         private ContentManager _contentManager;
         private string _spriteName;
         private Texture2D _sprite;
+        private int _radius;    
         private Vector2 _position;
-        private Vector2 _center;      
+        private Vector2 _center;
+        private Vector2 _velocity;   
         private bool _active;
 
         #endregion
@@ -39,16 +40,39 @@ namespace Demo_MG_ClickBall
             set { _spriteName = value; }
         }
 
+        public Texture2D Sprite
+        {
+            get { return _sprite; }
+            set { _sprite = value; }
+        }
+
+        public int Radius
+        {
+            get { return _radius; }
+            set { _radius = value; }
+        }
+
         public Vector2 Position
         {
             get { return _position; }
-            set { _position = value; }
+            set 
+            { 
+                _position = value;
+                _center.X = _position.X + _radius;
+                _center.Y = _position.Y + _radius;
+            }
         }
 
         public Vector2 Center
         {
             get { return _center; }
             set { _center = value; }
+        }
+        
+        public Vector2 Velocity
+        {
+            get { return _velocity; }
+            set { _velocity = value; }
         }
 
         public bool Active
@@ -62,42 +86,46 @@ namespace Demo_MG_ClickBall
         #region CONSTRUCTORS
 
         /// <summary>
-        /// instantiate a new Wall
+        /// instantiate a new ball
         /// </summary>
         /// <param name="contentManager">game content manager object</param>
         /// <param name="spriteName">file name of sprite</param>
-        /// <param name="position">vector position of Wall</param>
-        public Wall(
+        /// <param name="position">vector position of ball</param>
+        public Ball(
             ContentManager contentManager,
             string spriteName,
-            Vector2 position
+            int radius,
+            Vector2 position,
+            Vector2 velocity
             )
         {
             _contentManager = contentManager;
             _spriteName = spriteName;
+            _radius = radius;
             _position = position;
+            _center = position + new Vector2(radius, radius);
+            _velocity = velocity;
 
-            // load the Wall image into the Texture2D for the Wall sprite
+            // load the ball image into the Texture2D for the ball sprite
             _sprite = _contentManager.Load<Texture2D>(_spriteName);
-
-            _center = new Vector2(position.X + (_sprite.Width / 2), position.Y + (_sprite.Height / 2));
         }
 
         #endregion
 
         #region METHODS
         /// <summary>
-        /// add Wall sprite to the SpriteBatch object
+        /// add ball sprite to the SpriteBatch object
         /// </summary>
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            // only draw the Wall if it is active
+            // only draw the ball if it is active
             if (_active)
             {
                 spriteBatch.Draw(_sprite, _position, Color.White);
             }
         }
+
 
         #endregion
 

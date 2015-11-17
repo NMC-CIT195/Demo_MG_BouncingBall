@@ -48,12 +48,10 @@ namespace Demo_MG_ClickBall
         private Texture2D _background;
         private Rectangle _backgroundPosition;
 
-        // TODO add list of Wall variable
         // declare instance variables for the sprites
         private List<Ball> _balls;
         private List<Wall> _walls;
 
-        // TODO add a flag to indicate when to redraw the map
         // declare a flag to indicate when the map needs to be redrawn
         private bool _modifyMap = true;
 
@@ -106,7 +104,6 @@ namespace Demo_MG_ClickBall
             // create a list of Ball objects
             _balls = new List<Ball>();
 
-            // TODO instantiate list of Wall objects
             // create a list of Wall objects
             _walls = new List<Wall>();
 
@@ -205,7 +202,6 @@ namespace Demo_MG_ClickBall
                 ball.Draw(_spriteBatch);
             }
 
-            // TODO call the Draw method for all Wall objects
             // draw the walls
             foreach (var wall in _walls)
             {
@@ -245,23 +241,50 @@ namespace Demo_MG_ClickBall
 
         }
 
-        // TODO adjust BounceOffWalls method to accommodate the walls
         /// <summary>
         /// method to bounce ball of walls
         /// </summary>
+        //public void BounceOffWalls(Ball ball)
+        //{
+        //    // ball is at the top or bottom of the window, change the Y direction
+        //    if ((ball.Position.Y > (WINDOW_HEIGHT - CELL_HEIGHT) - ball.Radius * 2) || (ball.Position.Y < CELL_HEIGHT))
+        //    {
+        //        ball.Velocity = new Vector2(ball.Velocity.X, -ball.Velocity.Y);
+        //    }
+        //    // ball is at the left or right of the window, change the X direction
+        //    else if ((ball.Position.X > (WINDOW_WIDTH - CELL_WIDTH) - ball.Radius * 2) || (ball.Position.X < CELL_HEIGHT))
+        //    {
+        //        ball.Velocity = new Vector2(-ball.Velocity.X, ball.Velocity.Y);
+        //    }
+        //}
+
         public void BounceOffWalls(Ball ball)
         {
-            // ball is at the top or bottom of the window, change the Y direction
-            if ((ball.Position.Y > (WINDOW_HEIGHT - CELL_HEIGHT) - ball.Radius * 2) || (ball.Position.Y < CELL_HEIGHT))
+            Rectangle ballRectangle = new Rectangle((int)ball.Position.X, (int)ball.Position.Y, (int)(ball.Radius * 2), (int)(ball.Radius * 2));
+            foreach (Wall wall in _walls)
             {
-                ball.Velocity = new Vector2(ball.Velocity.X, -ball.Velocity.Y);
+                Rectangle wallRectangle = new Rectangle((int)wall.Position.X, (int)wall.Position.Y, CELL_WIDTH, CELL_HEIGHT);
+                if (Rectangle.Intersect(ballRectangle, wallRectangle) != null)
+                {
+                    MessageBox(new IntPtr(0), "I hit a wall!!", "Debug Message", 0);
+                }
             }
-            // ball is at the left or right of the window, change the X direction
-            else if ((ball.Position.X > (WINDOW_WIDTH - CELL_WIDTH) - ball.Radius * 2) || (ball.Position.X < CELL_HEIGHT))
-            {
-                ball.Velocity = new Vector2(-ball.Velocity.X, ball.Velocity.Y);
-            }
+
+
+
+            //// ball is at the top or bottom of the window, change the Y direction
+            //if ((ball.Position.Y > (WINDOW_HEIGHT - CELL_HEIGHT) - ball.Radius * 2) || (ball.Position.Y < CELL_HEIGHT))
+            //{
+            //    ball.Velocity = new Vector2(ball.Velocity.X, -ball.Velocity.Y);
+            //}
+            //// ball is at the left or right of the window, change the X direction
+            //else if ((ball.Position.X > (WINDOW_WIDTH - CELL_WIDTH) - ball.Radius * 2) || (ball.Position.X < CELL_HEIGHT))
+            //{
+            //    ball.Velocity = new Vector2(-ball.Velocity.X, ball.Velocity.Y);
+            //}
         }
+
+
 
         /// <summary>
         /// method to change the velocity of the balls when they collide
@@ -349,7 +372,6 @@ namespace Demo_MG_ClickBall
             return mouseClickedOnBall;
         }
 
-        // TODO adjust Spawn method to accommodate the walls
         /// <summary>
         /// spawn the ball at a random location on the screen
         /// </summary>
@@ -415,9 +437,7 @@ namespace Demo_MG_ClickBall
             Exit();
         }
 
-        #endregion
 
-        // TODO add a method to build the map
         /// <summary>
         /// method to add the starting walls to the map
         /// </summary>
@@ -465,7 +485,6 @@ namespace Demo_MG_ClickBall
                 _walls.Add(rightWallSection);
             }
 
-            // TODO draw the scoreboard
             // draw the scoreboard
             Content.Load<Texture2D>("ScoreBoard");
             _spriteBatch.Draw(
@@ -473,5 +492,8 @@ namespace Demo_MG_ClickBall
                 new Vector2(WINDOW_WIDTH - 192, 0),
                 Color.White);
         }
+
+
+        #endregion
     }
 }

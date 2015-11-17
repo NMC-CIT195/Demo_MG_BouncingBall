@@ -19,6 +19,7 @@ namespace Demo_MG_ClickBall
         private string _spriteName;
         private Texture2D _sprite;
         private Vector2 _position;
+        private Vector2 _center;      
         private bool _active;
 
         #endregion
@@ -43,6 +44,12 @@ namespace Demo_MG_ClickBall
             set { _position = value; }
         }
 
+        public Vector2 Center
+        {
+            get { return _center; }
+            set { _center = value; }
+        }
+
         public bool Active
         {
             get { return _active; }
@@ -58,19 +65,21 @@ namespace Demo_MG_ClickBall
         /// </summary>
         /// <param name="contentManager">game content manager object</param>
         /// <param name="spriteName">file name of sprite</param>
-        /// <param name="positiion">vector position of Wall</param>
+        /// <param name="position">vector position of Wall</param>
         public Wall(
             ContentManager contentManager,
             string spriteName,
-            Vector2 positiion
+            Vector2 position
             )
         {
             _contentManager = contentManager;
             _spriteName = spriteName;
-            _position = positiion;
+            _position = position;
 
             // load the Wall image into the Texture2D for the Wall sprite
             _sprite = _contentManager.Load<Texture2D>(_spriteName);
+
+            _center = new Vector2(position.X + (_sprite.Width / 2), position.Y + (_sprite.Height / 2));
         }
 
         #endregion

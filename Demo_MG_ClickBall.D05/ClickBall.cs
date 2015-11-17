@@ -50,6 +50,7 @@ namespace Demo_MG_ClickBall
 
         // declare instance variables for the sprites
         private List<Ball> _balls;
+        private List<Wall> _walls;
         
         // declare a spriteBatch object
         private SpriteBatch _spriteBatch;
@@ -99,6 +100,9 @@ namespace Demo_MG_ClickBall
 
             // create a list of Ball objects
             _balls = new List<Ball>();
+
+            // create a list of Wall objects
+            _walls = new List<Wall>();
 
             // add balls to the list
             Ball ball01 = new Ball(Content, "Ball", 32, new Vector2(200, 200), new Vector2(4, 4));
@@ -188,9 +192,17 @@ namespace Demo_MG_ClickBall
 
             // draw the background and the ball
             _spriteBatch.Draw(_background, _backgroundPosition, Color.White);
+
+            // draw the balls
             foreach (var ball in _balls)
             {
                 ball.Draw(_spriteBatch);
+            }
+
+            // draw the walls
+            foreach (var wall in _walls)
+            {
+                wall.Draw(_spriteBatch);
             }
 
             // call the BuildMap method to add all of the walls
@@ -414,11 +426,13 @@ namespace Demo_MG_ClickBall
 
                 Wall topWallSection = new Wall(Content, "Wall", topWallCellPosition);
                 topWallSection.Active = true;
-                topWallSection.Draw(_spriteBatch);
+                //topWallSection.Draw(_spriteBatch);
+                _walls.Add(topWallSection);
 
                 Wall bottomWallSection = new Wall(Content, "Wall", bottonWallCellPosition);
                 bottomWallSection.Active = true;
-                bottomWallSection.Draw(_spriteBatch);
+                //bottomWallSection.Draw(_spriteBatch);
+                _walls.Add(bottomWallSection);
             }
 
             // draw side walls
@@ -433,11 +447,13 @@ namespace Demo_MG_ClickBall
 
                 Wall leftWallSection = new Wall(Content, "Wall", leftWallCellPosition);
                 leftWallSection.Active = true;
-                leftWallSection.Draw(_spriteBatch);
+                //leftWallSection.Draw(_spriteBatch);
+                _walls.Add(leftWallSection);
 
                 Wall rightWallSection = new Wall(Content, "Wall", rightWallCellPosition);
                 rightWallSection.Active = true;
-                rightWallSection.Draw(_spriteBatch);
+                //rightWallSection.Draw(_spriteBatch);
+                _walls.Add(rightWallSection);
             }
 
             // TODO draw the scoreboard

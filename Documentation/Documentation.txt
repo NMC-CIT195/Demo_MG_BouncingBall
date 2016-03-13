@@ -19,19 +19,19 @@ Description: Adds constants to handle magic numbers
 Project: D03
 Description: Adds a SpriteFont
              Adds and displays a score recording the number of balls destroyed
-			 Adds a message box the indicates a win
-			 Adds and displays a timer that counts down by seconds
-			 Adds a message box to indicate the player is out of time
-			 Adds a SoundEffect explosion and plays when the ball is destroyed
+             Adds a message box the indicates a win
+             Adds and displays a timer that counts down by seconds
+             Adds a message box to indicate the player is out of time
+             Adds a SoundEffect explosion and plays when the ball is destroyed
 Project: D04
 Description: Adds more balls using a list of balls
-			 Adds a radius field to ball object
+             Adds a radius field to ball object
              Adds a smaller, faster ball worth 2 points
-			 Adds collision detection between balls using a circle as the bounding box
+             Adds collision detection between balls using a circle as the bounding box
 
 Project: D05
 Description: Add a wall class
-			 Adds walls using the BuildMap method
-			 Adjust the BounceOffWalls method to accommodate the walls
-			 Adjust the Spawn method to accommodate the walls
-			 Draw the scoreboard
+             Adds walls using the BuildMap method
+             Adjust the BounceOffWalls method to accommodate the walls
+             Adjust the Spawn method to accommodate the walls
+             Draw the scoreboard
